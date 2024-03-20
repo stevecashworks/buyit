@@ -1,0 +1,32 @@
+.first-motion {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.chevron-con {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 200px;
+  opacity: 0;
+  transition: all 0.3s ease 0.5s;
+}
+.chevron-con.left {
+  left: 0;
+}
+.chevron-con.right {
+  right: 0;
+}
+.subcon:hover > .chevron-con.left {
+  transform: translateX(60px);
+  opacity: 0.6;
+}
+.subcon:hover > .chevron-con.right {
+  transform: translateX(-60px);
+  opacity: 0.6;
+}
