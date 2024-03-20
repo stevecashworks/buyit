@@ -1,7 +1,7 @@
 import { useState, createContext } from 'react'
 import './App.css'
 import styled from 'styled-components'
-import Home from './components/home/Home'
+import Home from './pages/home/Home'
 
 
 const Container = styled.div<{ theme: string }>`
@@ -12,6 +12,7 @@ const Container = styled.div<{ theme: string }>`
     props.theme === "light" ? "var(--light)" : "var(--dark)"};
   color: ${(props) =>
     props.theme === "light" ? "var(--dark)" : "var(--light)"};
+    overflow-x: hidden;
 `;
 
 interface contextType {

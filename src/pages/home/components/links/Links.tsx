@@ -12,6 +12,8 @@ const Container = styled.div`
   margin: 10px auto;
   display: flex;
   height: 40px;
+  overflow-x:hidden;
+  background:green;
 `;
 const CategorySubCon = styled.div`
   background-color: var(--info);
