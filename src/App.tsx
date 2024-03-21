@@ -2,7 +2,7 @@ import { useState, createContext } from 'react'
 import './App.css'
 import styled from 'styled-components'
 import Home from './pages/home/Home'
-import SingleProduct from './pages/singleproduct/singleProduct';
+// import SingleProduct from './pages/singleproduct/singleProduct';
 
 
 const Container = styled.div<{ theme: string }>`
