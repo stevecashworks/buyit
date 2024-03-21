@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 300px;
   height: 450px;
+  
 }
 .card-bg {
   background-color: #c9bbbb;
@@ -42,6 +43,11 @@ transform:translateY(-30px);
   .card-bg:hover > .option-con {
   opacity: 1;
   transform: none;
+}
+
+.product-card-con{
+  gap:5px;
+  margin-bottom: 20px;
 }
  
 }

@@ -56,9 +56,10 @@ display:flex;
 overflow-x: hidden;
 width:100%;
 height:2000px;
-background:red
+
 ${responsive(`
-  height:5800px;
+  height:6100px;
+  padding-top:20px;
 `)}
 
 

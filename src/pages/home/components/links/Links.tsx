@@ -12,13 +12,13 @@ const Container = styled.div`
   margin: 10px auto;
   display: flex;
   height: 40px;
-  overflow-x:hidden;
+
   
 `;
 const CategorySubCon = styled.div`
   background-color: var(--info);
   color: var(--light);
-  height: 80px;
+  height: 40px;
   width: 250px;
   font-size: 20px;
   display: flex;
