@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {useState} from "react"
+import {useState, useRef, useEffect} from "react"
 import  flask from "../../../../assets/products/flask.png"
 import sneaker from "../../../../assets/products/sneakers.png"
 import ProductCard from "../productcard/productCard"
@@ -55,12 +55,6 @@ position: relative;
 display:flex;
 overflow-x: hidden;
 width:100%;
-height:2000px;
-
-${responsive(`
-  height:6100px;
-  padding-top:20px;
-`)}
 
 
 `
@@ -90,17 +84,25 @@ ${responsive(`
 
 
 const Products=()=>{
-    const productData= []
-    const productData2= []
+  const  categoryConRef= useRef(null)
+  const newProductsRef=useRef(null)
+  const featuredProductsRef=useRef(null)
+    const productData1=new Array(12).fill(sampleProduct)
+    const productData2= new Array(12).fill(sampleProduct2)
     
-    for(let i=0;i<12;i++ ){
-        productData.push(sampleProduct)
-    }
-
-    for (let i = 0; i < 12; i++) {
-      productData2.push(sampleProduct2);
-    }
-const  [group, setGroup]= useState("new")
+    
+    const  [group, setGroup]= useState("new")
+    useEffect(()=>{
+      const activeCon=group==="new"?newProductsRef.current:featuredProductsRef.current;
+      
+      if(categoryConRef.current&& activeCon){
+        const  height= activeCon.offsetHeight+100
+        categoryConRef.current.style.height=`${height}px`
+        
+        
+      }
+      console.log(activeCon)
+    },[group,productData1,productData2])
     return (
       <Container>
         <ProductTop>
@@ -126,14 +128,14 @@ const  [group, setGroup]= useState("new")
         </ProductTop>
         <hr />
         
-        <ProductCategoryCon>
-          <ProductsCon selected={group === "new"}>
-            {productData.map((product) => (
+        <ProductCategoryCon ref={categoryConRef}>
+          <ProductsCon ref={newProductsRef} selected={group === "new"}>
+            {productData1.map((product) => (
               <ProductCard {...product} />
             ))}
           </ProductsCon>
 
-          <ProductsCon selected={group === "featured"}>
+          <ProductsCon ref={featuredProductsRef} selected={group === "featured"}>
             {productData2.map((product) => (
               <ProductCard {...product} />
             ))}
