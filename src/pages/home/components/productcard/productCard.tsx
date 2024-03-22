@@ -4,15 +4,11 @@ import {  motion } from "framer-motion";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
 import styled from "styled-components";
+import Rating from "../ratings";
 
 const Img = styled.img`
   width: 200px;
   
-`;
-const Ratings = styled.div`
-  display: flex;
-  gap: 2px;
-  margin: 10px 0px;
 `;
 const Name = styled.p`
   font-size: 18px;
@@ -46,11 +42,7 @@ interface productProps {
 }
 const ProductCard = (props: productProps) => {
   const { src, name,  price, rating } = props;
-  const stars = [];
-  const allWholeRatings = Math.floor(rating);
-  for (let i = 0; i < allWholeRatings; i++) {
-    stars.push("star");
-  }
+ 
   return (
     <motion.div className="product-card-con">
       <motion.div className="card-bg">
@@ -63,13 +55,9 @@ const ProductCard = (props: productProps) => {
         </div>
       </motion.div>
       {/*ratings  */}
-      <Ratings>
-        {stars.map(() => (
-          
-          <FaStar color="#cba229" size={20} />
-        ))}
-        {stars.length !== rating && <FaStarHalfAlt color="#cba229" size={20} />}
-      </Ratings>
+      <Rating no={rating} />
+
+      
       <Name>{name}</Name>
       <Price>${price}</Price>
       <Colors>

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Header from "../home/components/header/header";
-import Links from "../home/components/links/Links";
+// import Links from "../home/components/links/Links";
 import SearchAndFav from "../home/components/searchandfav/SearchAndFav";
+import PageTitle from "./components/PageTitle/pageTitle";
+import ProductInfo from "./components/productInfo/productInfo";
 const Container= styled.div`
 width:100%;
 min-height:100vh;
@@ -11,7 +13,9 @@ const SingleProduct=()=>{
         <Container>
             <Header/>
             <SearchAndFav/>
-            <Links/>
+            <PageTitle/>
+            {/* <Links/> */}
+            <ProductInfo/>
 
         </Container>
     )

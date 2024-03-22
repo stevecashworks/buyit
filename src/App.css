@@ -21,9 +21,11 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 body{
-  font-family: Lato sans-serif;
-  width:100%;
-  overflow-x: hidden;
+  
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
 }
 @keyframes logo-spin {
   from {

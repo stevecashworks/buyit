@@ -101,7 +101,7 @@ const Products=()=>{
         
         
       }
-      console.log(activeCon)
+      
     },[group,productData1,productData2])
     return (
       <Container>

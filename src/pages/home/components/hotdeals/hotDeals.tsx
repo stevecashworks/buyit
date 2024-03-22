@@ -26,7 +26,7 @@ const products = [
     name: "bluetooth wireless headset",
     desc: "Extra Bass speakers",
     price: 20,
-    rating: 5,
+    rating: 2.5,
   },
   {
     src: home,
@@ -40,7 +40,7 @@ const products = [
     name: "Wireless bluetooth headphones",
     desc: "Great Sounding music",
     price: 15,
-    rating: 4.5,
+    rating: 3.5,
   },
   {
     src: sneaker,
