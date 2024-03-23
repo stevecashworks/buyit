@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import Rating from "../../../../home/components/ratings";
-import { FaCheckCircle, FaChevronRight } from "react-icons/fa";
+import payment from "../../../../../assets/payment.png"
+import {
+  FaCheckCircle,
+  FaChevronRight,
+  FaFacebookF,
+  FaGooglePlusG,
+  FaInstagram,
+  FaShare,
+  FaTwitter,
+} from "react-icons/fa";
 import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { GoBookmarkFill } from "react-icons/go";
@@ -16,6 +25,9 @@ const Top = styled.div`
   width: 100%;
   display: flex;
 `;
+const Payment=styled.img`
+  
+`
 const ProductName = styled.div`
   margin: 20px 0;
   text-transform: uppercase;
@@ -144,7 +156,20 @@ const CartBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border:none;
+  border: none;
+`;
+const SocialIconsCon = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+const SocialIconCon = styled.div`
+  cursor: pointer;
+  font-size: 20px;
+  color:rgb(0,0,0,0.5);
+  transition:all 0.5s linear;
+  &:hover {
+    color: var(--danger);
+  }
 `;
 const sizes = ["s", "m", "l", "xl"];
 const Details = () => {
@@ -246,6 +271,48 @@ const Details = () => {
       {/* free shipping ends */}
 
       {/* shipping info  starts*/}
+
+      <SelectSize style={{ color: "rgb(0,0,0)", fontWeight: "600" }}>
+        Shipping info
+      </SelectSize>
+      <SelectSize>100% Original Products</SelectSize>
+      <SelectSize>Free Delivery on order above Rs. 799</SelectSize>
+      <SelectSize>Pay on delivery is available</SelectSize>
+      <SelectSize>Easy 30 days returns and exchanges</SelectSize>
+      {/* shipping info  ends*/}
+      <Line />
+      {/* shareProduct starts */}
+      <SelectSize style={{ color: "rgb(0,0,0)", fontWeight: "600" }}>
+        Share It
+      </SelectSize>
+      <SocialIconsCon>
+        <SocialIconCon>
+          <FaFacebookF />
+        </SocialIconCon>
+        <SocialIconCon>
+          <FaGooglePlusG />
+        </SocialIconCon>
+        <SocialIconCon>
+          <FaTwitter />
+        </SocialIconCon>
+        <SocialIconCon>
+          <FaInstagram />
+        </SocialIconCon>
+        <SocialIconCon>
+          <FaShare />
+        </SocialIconCon>
+      </SocialIconsCon>
+
+      {/* shareProduct ends */}
+      <Line />
+
+      {/* secure payments starts  */}
+
+      <SelectSize style={{ color: "rgb(0,0,0)", fontWeight: "600" }}>
+        100% Secure Payments
+      </SelectSize>
+      <Payment src={payment}/>
+      {/* secure payments  end  */}
     </Container>
   );
 };

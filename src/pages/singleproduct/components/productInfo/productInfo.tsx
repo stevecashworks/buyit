@@ -6,7 +6,6 @@ import Footer from "../../../home/components/footer/footer";
 const Container=styled. div`
     width:85vw;
     margin:40px auto;
-    height:650px;
     display:flex;
     gap:20px;
 

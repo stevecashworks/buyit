@@ -4,6 +4,7 @@ import flask from "../../../../../assets/products/studs.png";
 import camera from "../../../../../assets/cam.png";
 import smartWatch from "../../../../../assets/products/home.png";
 import { useRef, useState } from "react";
+import responsive from "../../../../../responsive";
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const Container = styled.div`
 const TopContainer = styled.div<{ image: string }>`
   cursor: crosshair;
   width: 550px;
-  height: 500px;
+  height: 800px;
   background-color: #ddd;
   background-image: url(${props=>props.image});
   background-position: center;
@@ -22,6 +23,10 @@ const TopContainer = styled.div<{ image: string }>`
   background-repeat: no-repeat;
   overflow: hidden;
   transition: all 0.2s ease;
+  ${responsive(`
+    width:300px;
+    height:400px;
+  `)}
 `;
 
 const BottomContainer = styled.div`
@@ -55,6 +60,7 @@ const Images = () => {
   const handleMouseMove = (event: React.MouseEvent) => {
     const { clientX, clientY } = event;
     const container = containerRef.current;
+    
     const { top, left, width, height } = container.getBoundingClientRect();
     const x = clientX - left; // x position within the element.
     const y = clientY - top; // y position within the element.
@@ -62,7 +68,10 @@ const Images = () => {
     const moveX = ((x / width) * 100 - 50) * -0.5; // Move in the opposite direction of the cursor
     const moveY = ((y / height) * 100 - 50) * -1.5; // Move in the opposite direction of the cursor
 
+  if(container) {
     container.style.backgroundPosition = `${moveX}% ${moveY}%`;
+
+  } 
   };
   return (
     <Container>

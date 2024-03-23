@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import responsive from "../../../../responsive"
 
 const Container=styled.div`
     width:100%;
@@ -9,6 +10,9 @@ const Container=styled.div`
     justify-content:space-between;
     align-items:center;
     padding: 50px 120px;
+    ${responsive(`
+        padding:20px
+    `)}
 `
 const PageDetail=styled.div`
     text-transform:uppercase;
