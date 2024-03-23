@@ -25,13 +25,18 @@ const TopContainer = styled.div<{ image: string }>`
   transition: all 0.2s ease;
   ${responsive(`
     width:300px;
-    height:400px;
+    height:350px;
   `)}
 `;
 
 const BottomContainer = styled.div`
   display: flex;
   gap: 20px;
+  ${responsive(`
+    gap:30px;
+    flex-wrap:wrap;
+    justify-content:center;
+  `)}
 `;
 const ImgCon = styled.div<{active:boolean}>`
   width: 120px;
@@ -46,33 +51,37 @@ const ImgCon = styled.div<{active:boolean}>`
   &:hover {
     transform: scale(1.1);
   }
+  ${responsive(`
+    width:80px;
+    height:110px
+  `)}
 `;
 const Img = styled.img`
-  width: 120px;
+  width: 80px;
 `;
 
 const Images = () => {
   const photos = [ smartWatch,sneakers, flask, camera];
   const [image, setImage] = useState(sneakers);
     console.log(image)
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (event: React.MouseEvent) => {
-    const { clientX, clientY } = event;
-    const container = containerRef.current;
-    
-    const { top, left, width, height } = container.getBoundingClientRect();
-    const x = clientX - left; // x position within the element.
-    const y = clientY - top; // y position within the element.
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (containerRef.current) {
+      const { clientX, clientY } = event;
+      const { top, left, width, height } =
+        containerRef.current.getBoundingClientRect();
+      const x = clientX - left; // x position within the element.
+      const y = clientY - top; // y position within the element.
 
-    const moveX = ((x / width) * 100 - 50) * -0.5; // Move in the opposite direction of the cursor
-    const moveY = ((y / height) * 100 - 50) * -1.5; // Move in the opposite direction of the cursor
+      const moveX = ((x / width) * 100 - 50) * -0.5; // Move in the opposite direction of the cursor
+      const moveY = ((y / height) * 100 - 50) * -1.5; // Move in the opposite direction of the cursor
 
-  if(container) {
-    container.style.backgroundPosition = `${moveX}% ${moveY}%`;
-
-  } 
+      containerRef.current.style.backgroundPosition = `${moveX}% ${moveY}%`;
+    }
   };
+
+  ;
   return (
     <Container>
       <TopContainer
