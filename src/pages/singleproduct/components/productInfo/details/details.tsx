@@ -14,6 +14,7 @@ import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { GoBookmarkFill } from "react-icons/go";
 import { PiShoppingCartFill } from "react-icons/pi";
+import responsive from "../../../../../responsive";
 
 const Container = styled.div`
   width: 700px;
@@ -26,6 +27,8 @@ const Top = styled.div`
   display: flex;
 `;
 const Payment=styled.img`
+${responsive(`
+width:300px`)}
   
 `
 const ProductName = styled.div`
@@ -157,6 +160,11 @@ const CartBtn = styled.button`
   align-items: center;
   justify-content: center;
   border: none;
+  ${responsive(`
+    font-size:12px;
+    padding:10px 5px;
+    width:120px;
+  `)}
 `;
 const SocialIconsCon = styled.div`
   display: flex;

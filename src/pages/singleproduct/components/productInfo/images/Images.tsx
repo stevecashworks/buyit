@@ -33,9 +33,10 @@ const BottomContainer = styled.div`
   display: flex;
   gap: 20px;
   ${responsive(`
-    gap:30px;
+    gap:10px;
     flex-wrap:wrap;
     justify-content:center;
+    justify-content:flex-start;
   `)}
 `;
 const ImgCon = styled.div<{active:boolean}>`
