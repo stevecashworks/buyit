@@ -84,9 +84,9 @@ ${responsive(`
 
 
 const Products=()=>{
-  const  categoryConRef= useRef(null)
-  const newProductsRef=useRef(null)
-  const featuredProductsRef=useRef(null)
+  const  categoryConRef= useRef<HTMLDivElement>(null)
+  const newProductsRef=useRef<HTMLDivElement>(null)
+  const featuredProductsRef=useRef<HTMLDivElement>(null)
     const productData1=new Array(12).fill(sampleProduct)
     const productData2= new Array(12).fill(sampleProduct2)
     

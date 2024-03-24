@@ -1,4 +1,3 @@
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import "./productCard.css";
 import {  motion } from "framer-motion";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
