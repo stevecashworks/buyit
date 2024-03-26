@@ -20,11 +20,11 @@ const PageDetail=styled.div`
     cursor:pointer;
 `
 
-const PageTitle=()=>{
+const PageTitle=({left,right}:{left:string, right:string})=>{
 return(
     <Container>
-        <PageDetail>Product</PageDetail>
-        <PageDetail>Home/Product</PageDetail>
+        <PageDetail>{left}</PageDetail>
+        <PageDetail>{right}</PageDetail>
 
     </Container>
 )

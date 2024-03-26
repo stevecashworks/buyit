@@ -14,7 +14,7 @@ const SingleProduct=()=>{
         <Container>
             <Header/>
             <SearchAndFav/>
-            <PageTitle/>
+            <PageTitle left="product" right="home/product"/>
             {/* <Links/> */}
             <ProductInfo/>
             <Footer/>
