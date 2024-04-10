@@ -1,9 +1,10 @@
 import { useState, createContext } from 'react'
 import './App.css'
 import styled from 'styled-components'
+import Vendor from './pages/vendor/vendor';
 // import Home from './pages/home/Home'
 // import SingleProduct from './pages/singleproduct/singleProduct';
-import Cart from './pages/cart/cart';
+// import Cart from './pages/cart/cart';
 
 
 const Container = styled.div<{ theme: string }>`
@@ -35,7 +36,8 @@ function App() {
     <Container theme={theme}>
       {/* <Home/>   */}
       {/* <SingleProduct/> */}
-      <Cart/>
+      {/* <Cart/> */}
+      <Vendor/>
 
     </Container>
     </AppContext.Provider>
