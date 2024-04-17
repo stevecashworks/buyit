@@ -6,6 +6,7 @@ import studs from "../../../../assets/products/studs.png";
 import sneaker from "../../../../assets/products/sneakers.png";
 import headset from "../../../../assets/products/headset.png";
 import responsive from "../../../../responsive";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 80vw;
   margin: 20px auto;
@@ -50,6 +51,10 @@ const products = [
     rating: 4,
   },
 ];
+export const linkStyle={
+color:"unset",
+textDecoration:"none"
+}
 
 const HotDeals = () => {
   return (
@@ -57,7 +62,9 @@ const HotDeals = () => {
       <Header> HOt Deals 🔥</Header>
       <Container>
         {products.map((product) => (
+          <Link style ={linkStyle} to="/singleproduct/1">
           <ProductCard {...product} />
+          </Link>
         ))}
       </Container>
     </>

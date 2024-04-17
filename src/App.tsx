@@ -2,7 +2,7 @@ import { useState, createContext } from 'react'
 import './App.css'
 import styled from 'styled-components'
 import Vendor from './pages/vendor/vendor';
-// import Home from './pages/home/Home'
+import Home from './pages/home/Home'
 // import SingleProduct from './pages/singleproduct/singleProduct';
 // import Cart from './pages/cart/cart';
 
@@ -34,10 +34,10 @@ function App() {
     <AppContext.Provider value={{theme,setTheme}}>
 
     <Container theme={theme}>
-      {/* <Home/>   */}
+      <Home/>  
       {/* <SingleProduct/> */}
       {/* <Cart/> */}
-      <Vendor/>
+      {/* <Vendor/> */}
 
     </Container>
     </AppContext.Provider>

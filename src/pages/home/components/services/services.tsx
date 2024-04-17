@@ -13,8 +13,8 @@ const Container = styled.div`
   ${responsive(`flex-direction:column;gap:20px; align-items:center;opacity:0.8`)}
 `;
 const CardCon = styled.div`
-  background-color: #dadada;
-  height: 50px;
+  background-color: #eceaea;
+  height: 120px;
   display: flex;
   padding:10px;
   width:230px;

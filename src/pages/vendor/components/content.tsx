@@ -3,6 +3,7 @@ import Orders from "./orders/order";
 import Dashboard from "./dashboard";
 import ProductList from "./productList/productList";
 import Profile from "./profile/profile";
+import AddProduct from "./addProduct/addProduct";
 
 const Container = styled.div`
     width:900px;
@@ -15,7 +16,8 @@ const contentData={
     "orders":Orders,
     "profile":Profile,
     "settings":ProductList,
-    "logout":Orders
+    "add product":AddProduct
+    
 }
  export type contentKey= keyof typeof contentData
 type slideProps={

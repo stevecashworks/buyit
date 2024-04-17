@@ -4,6 +4,7 @@ import { CiSearch, CiSettings } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import { FavCon, FavValue } from "../header/header";
 import responsive from "../../../../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 80vw;
@@ -68,10 +69,12 @@ const SearchAndFav = () => {
         </InputCon>
         <IconsCon>
           <CiSettings style={{ fontSize: "30px" }} />
+          <Link style={{color:"black"}} to="/cart/id">
           <FavCon>
             <IoCartOutline style={{ fontSize: "30px" }} />
             <FavValue>0</FavValue>
           </FavCon>
+          </Link>
         </IconsCon>
       </Container>
       <hr />

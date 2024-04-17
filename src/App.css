@@ -51,6 +51,7 @@ body{
   --gray:rgb(218, 213, 213);
 }
 
+
 :root {
     /* Color Definitions */
     --primary: rgb(13, 110, 253);
@@ -62,4 +63,6 @@ body{
     --light: rgb(248, 249, 250); /* Light shade often used for backgrounds */
     --dark: rgb(33, 37, 41); /* Dark shade often used for text */
     --top-gray:rgb(39, 42, 44);
+    --grad-background: #00dbde;
+  --grad: linear-gradient(90deg, #08989b 0%, #c205c5 100%);
 }

@@ -12,14 +12,12 @@ const Container = styled.div`
   margin: 10px auto;
   display: flex;
   height: 40px;
-
-  
 `;
 const CategorySubCon = styled.div`
   background-color: var(--info);
   color: var(--light);
   height: 40px;
-  width: 250px;
+  width: 280px;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -43,6 +41,7 @@ const Link = styled.a<{ theme: string }>`
     props.theme === "light" ? "rgb(0,0,0,0.8)" : "rgb(255,255,255,0.8)"};
   /* font-weight:600; */
   text-transform: capitalize;
+  text-decoration:none;
 `;
 const CategoryCon = styled.div`
   display: flex;

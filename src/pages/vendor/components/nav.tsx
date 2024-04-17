@@ -47,8 +47,10 @@ const links=[
     {text:"products",id:"vendorLinkText2"},
     {text:"orders",id:"vendorLinkText3"},
     {text:"profile",id:"vendorLinkText4"},
+    {text:"add product",id:"vendorLinkText7"},
     {text:"settings",id:"vendorLinkText5"},
     {text:"logout",id:"vendorLinkText6"},
+    
 ]
 type navProps = {
   fn: React.Dispatch<React.SetStateAction<contentKey>>,
