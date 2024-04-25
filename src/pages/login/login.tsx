@@ -1,7 +1,12 @@
+import React, { useState } from "react";
 import { CiUnlock } from "react-icons/ci";
 import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import styled from "styled-components";
+import fetch_helper from "../../helpers/fetchhelper";
+import apiEntry from "../../apiEntry";
+import { Link, useNavigate } from "react-router-dom";
+import { linkStyle } from "../Register/register";
 
 const Container = styled.div`
   width: 100vw;
@@ -120,6 +125,44 @@ const Btn = styled.button`
   }
 ;`;
 const Login=()=>{
+const navigate=useNavigate()
+const [userName,setUserName]= useState<string>("")
+const [password,setPassword]= useState<string>("")
+type fetched_data_type={
+  success:boolean,
+  result:(object|string)
+}
+type resultType=  {token:string}
+
+const onSuccess=(data:fetched_data_type)=>{
+const {token}=data.result as resultType
+console.log(token)
+localStorage.setItem("buyit_token", token)
+navigate('/')
+}
+
+const login = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  e.preventDefault();
+  const compulsory_fields= [userName, password]
+  const user_can_proceed= compulsory_fields.every(field=>field)
+  if(user_can_proceed){
+  fetch_helper({
+    method:"post",
+   body:{userName,password},
+   url:`${apiEntry}/users/login`,
+   onSuccess
+  },
+   
+  )
+   
+  } 
+  
+
+
+};
+
+
+  
 return (
   <Container>
     <FormCon>
@@ -130,8 +173,14 @@ return (
           <InpLabel>
             <IoPerson />
           </InpLabel>
-          <Inp type="text" id="name" placeholder="type your username" />
-          
+          <Inp
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+            type="text"
+            id="name"
+            placeholder="type your username"
+          />
         </InpCon>
       </FormGroup>
 
@@ -139,21 +188,41 @@ return (
         <Label>Password</Label>
         <InpCon>
           <InpLabel htmlFor="password">
-            <CiUnlock/>
+            <CiUnlock />
           </InpLabel>
-          <Inp type="password" id="password" placeholder="type your password" />
+          <Inp
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            type="password"
+            id="password"
+            placeholder="type your password"
+          />
         </InpCon>
         <Path>Forgot password?</Path>
       </FormGroup>
 
-      <Btn>Login</Btn>
+      <Btn
+        onClick={(e) => {
+          login(e);
+        }}
+      >
+        Login
+      </Btn>
+      <Path className="center">
+        <Link to="/register" style={linkStyle}>Or sign up</Link>
+      </Path>
       <Path className="center"> Or sign up using</Path>
       <IconsCon>
-
-
-        <IconCon col="var(--primary)"><FaFacebookF/></IconCon>
-        <IconCon col="var(--info)"><FaTwitter/></IconCon>
-        <IconCon col="var(--danger)"><FaGoogle/></IconCon>
+        <IconCon col="var(--primary)">
+          <FaFacebookF />
+        </IconCon>
+        <IconCon col="var(--info)">
+          <FaTwitter />
+        </IconCon>
+        <IconCon col="var(--danger)">
+          <FaGoogle />
+        </IconCon>
       </IconsCon>
     </FormCon>
   </Container>

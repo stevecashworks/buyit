@@ -8,12 +8,16 @@ import HotDeals from "./components/hotdeals/hotDeals";
 import Categories from "./components/categories/categories";
 import Products from "./components/products/products";
 import Footer from "./components/footer/footer";
+import {  useDispatch } from "react-redux";
 const Container = styled.div`
   width: 100vw;
   background-color: var(--${(props) => props.theme});
 `;
 
 const Home = () => {
+  const dispatch=useDispatch()
+  const token= localStorage.getItem("buyit_token")
+  console.log(token)
   return (
     <Container>
       <Header />

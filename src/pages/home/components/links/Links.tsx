@@ -91,7 +91,6 @@ const variant = {
 const Links = () => {
   const [catOpen, setCatOpen] = useState(false);
   const { theme } = useContext(AppContext);
-  console.log(catOpen);
   return (
     <Container>
       <CategoryCon>

@@ -2,10 +2,19 @@ import { CiUnlock } from "react-icons/ci";
 import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import styled from "styled-components";
-import uploadFile from "../../upload/addImg";
-import { useState } from "react";
+import logoPlaceholder from "../../assets/uploadImg.jpg"
+import React, { useState } from "react";
+import uploadLogo from "./uploadLogo";
+import fetch_helper from "../../helpers/fetchhelper";
+import apiEntry from "../../apiEntry";
+import { Link, useNavigate } from "react-router-dom";
 
 
+
+export const linkStyle= {
+  textDecoration:"none",
+  color:"unset"
+}
 
 const Container = styled.div`
   width: 100vw;
@@ -66,6 +75,13 @@ const Inp = styled.input`
   }
 
 `;
+const LogoInpCon=styled.div`
+    display:flex;
+    flex-direction: column;
+    gap:8px;
+    justify-content:center;
+    align-items:center;
+`
 const Path = styled.a`
   float: right;
   text-decoration: none;
@@ -106,6 +122,10 @@ const IconCon = styled.div<{ col: string }>`
     background-color: rgb(0, 0, 0, 0.8);
   }
 `;
+const FigCaption=styled.figcaption`
+    font-size:14px;
+    text-align:center;
+`
 
 const Btn = styled.button`
   background-color: #00dbde;
@@ -135,50 +155,140 @@ const Btn = styled.button`
   &:hover:before {
     transform: scaleX(100%);
   }
+  
 `;
-type userType="vendor"|"customer"
+const LogoImg=styled.img`
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit: cover;
+    margin:20px auto;
+
+`
+export type responseType={success:boolean, result:object|string}
+ type resultType={token:string}
+// type userType="vendor"|"customer"
 const Register = () => {
-    const [userType,setUserType]= useState<userType>("customer")
+    const navigate=useNavigate()
+    const handleChange=(e:React.ChangeEvent<HTMLInputElement>,setLogo:React.Dispatch<React.SetStateAction<string>>)=>{
+if(e.target.files&&e.target.files[0]){
+    uploadLogo({file:e.target.files[0],setImg:setLogo})
+    
+}
+        
+    }
+
+    const [userType,setUserType]= useState<string>("customer")
+    const [logo, setLogo]=useState<string>(logoPlaceholder)
+    const [name,setName]=useState<string>("")
+    const [email,setEmail]=useState<string>("")
+    const [password,setPassword]=useState<string>("")
+    const [checkPassword,setCheckPassword]=useState<string>("")
+
+    const onSuccess=(data:responseType)=>{
+        console.log(data.result)
+        const {token}=data.result as resultType
+        localStorage.setItem("buyit_token", token)
+
+        navigate("/")
+        
+    }
+    
+
+const add_user = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+  const compulsory_fields = [name, email, password];
+  const some_fields_were_omitted = compulsory_fields.some((field) => !field);
+  if (some_fields_were_omitted) {
+    alert("fill form correctly to proceed");
+  } else {
+    const passwords_match = password === checkPassword;
+    if (!passwords_match) {
+      alert("passwords do not match");
+    } else {
+      const logo_has_not_changed = logo === logoPlaceholder;
+      const body = logo_has_not_changed
+        ? { email, userName:name, password,userType,  }
+        : { email, userName:name, password,userType, logo };
+      fetch_helper({ method: "post", url: `${apiEntry}/users/register`,onSuccess, body });
+    }
+  }
+};
+
+
+
+
   return (
     <Container>
       <FormCon>
         <PageHeader>Register</PageHeader>
+        {userType == "vendor" && (
+          <LogoInpCon>
+            <InpLabel htmlFor="logo">
+              <figure>
+                <LogoImg src={logo} />
+                <FigCaption>Logo</FigCaption>
+              </figure>
+            </InpLabel>
+            <Inp
+              type="file"
+              style={{ display: "none" }}
+              id="logo"
+              onChange={(e) => {
+                handleChange(e, setLogo);
+              }}
+            />
+          </LogoInpCon>
+        )}
+
         <FormGroup>
           <Label>Username</Label>
           <InpCon>
             <InpLabel>
               <IoPerson />
             </InpLabel>
-            <Inp type="text" id="name" placeholder="type your username" />
+            <Inp
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              type="text"
+              id="name"
+              placeholder="type your username"
+            />
           </InpCon>
         </FormGroup>
         <FormGroup>
           <Label>user type</Label>
           <InpCon>
-            {/* <InpLabel>
-              <IoPerson />
-            </InpLabel>
-            <Inp type="text" id="name" placeholder="type your username" /> */}
-
             <InpGroup>
-              <InpLabel htmlFor="customer">Buyer</InpLabel>
-              <Inp
-                className="radio"
-                id="customer"
-                type="radio"
-                value="customer"
-                name="userType"
-              />
+              <InpLabel htmlFor="customer">
+                <Inp
+                  className="radio"
+                  id="customer"
+                  type="radio"
+                  value="customer"
+                  name="userType"
+                  onChange={(e) => {
+                    setUserType(e.target.value);
+                  }}
+                />
+                Buyer
+              </InpLabel>
             </InpGroup>
             <InpGroup>
-              <InpLabel htmlFor="vendor">Seller</InpLabel>
-              <Inp
-                className="radio"
-                id="vendor"
-                type="radio"
-                value="vendor"
-                name="userType"
-              />
+              <InpLabel htmlFor="vendor">
+                <Inp
+                  className="radio"
+                  id="vendor"
+                  type="radio"
+                  value="vendor"
+                  name="userType"
+                  onChange={(e) => {
+                    setUserType(e.target.value);
+                  }}
+                />
+                Seller
+              </InpLabel>
             </InpGroup>
           </InpCon>
         </FormGroup>
@@ -189,7 +299,14 @@ const Register = () => {
             <InpLabel>
               <IoPerson />
             </InpLabel>
-            <Inp type="email" id="name" placeholder="type your email" />
+            <Inp
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              type="email"
+              id="email"
+              placeholder="type your email"
+            />
           </InpCon>
         </FormGroup>
 
@@ -203,12 +320,39 @@ const Register = () => {
               type="password"
               id="password"
               placeholder="type your password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </InpCon>
+        </FormGroup>
+        <FormGroup>
+          <Label>Retype Password</Label>
+          <InpCon>
+            <InpLabel htmlFor="repassword">
+              <CiUnlock />
+            </InpLabel>
+            <Inp
+              type="password"
+              id="repassword"
+              placeholder="re-type your password"
+              onChange={(e) => {
+                setCheckPassword(e.target.value);
+              }}
             />
           </InpCon>
         </FormGroup>
 
-        <Btn>Register</Btn>
-        <Path className="center">Login instead</Path>
+        <Btn
+          onClick={(e) => {
+            add_user(e);
+          }}
+        >
+          Register
+        </Btn>
+        <Path className="center">
+          <Link to="/login" style={linkStyle}>Login instead</Link>
+        </Path>
         <IconsCon>
           <IconCon col="var(--primary)">
             <FaFacebookF />
