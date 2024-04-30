@@ -5,7 +5,10 @@ import Nav from "./components/nav"
 import Content from "./components/content"
 import Footer from "../home/components/footer/footer"
 import { contentKey } from "./components/content"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "../../state/store"
+import { useNavigate } from "react-router-dom"
 
 
 const  Container=styled.div`
@@ -19,6 +22,17 @@ const VendorCon=styled.div`
 
 `
 const Vendor=()=>{
+    const navigate= useNavigate()
+    
+    const {is_logged_in}=useSelector((state:RootState)=>state.user)
+    useEffect(() => {
+        if(!is_logged_in){
+            navigate("/")
+        }
+    }, []);
+    
+    
+
     const [currentSlide, setCurrentSlide]=useState<contentKey>("dashboard")
  return(
     <Container>

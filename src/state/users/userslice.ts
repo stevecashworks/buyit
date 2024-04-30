@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type user_details_type = {
-  id: string;
-  user_type: "vendor" | "customer" | "admin" | "none";
+export type user_details_type = {
+  _id: string;
+  userType: "vendor" | "customer" | "admin" | "none";
+  userName:string
 };
 
 interface defaultUser {
@@ -12,8 +13,9 @@ interface defaultUser {
 const initialState: defaultUser = {
   is_logged_in: false,
   userDetails: {
-    id: "",
-    user_type: "none",
+    _id: "",
+    userType: "none",
+    userName:""
   },
 };
 
@@ -28,7 +30,9 @@ const userSlice = createSlice({
     },
     // logout
     log_user_out: (state) => {
-      state = initialState;
+      // i temporarily assigned state to the current state to bypass typescripts warning
+      state = state;
+      state=initialState
     },
   },
 });

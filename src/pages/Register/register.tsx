@@ -165,7 +165,7 @@ const LogoImg=styled.img`
     margin:20px auto;
 
 `
-export type responseType={success:boolean, result:object|string}
+export type responseType={success:boolean, result:(object|string|[])}
  type resultType={token:string}
 // type userType="vendor"|"customer"
 const Register = () => {

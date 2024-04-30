@@ -4,7 +4,7 @@ type fetch_arguments={
 method:"get"|"post",
 body?:object,
 url:string,
-token?:"string",
+token?:string|undefined|null
 onError?:(err:string)=>void,
 onSuccess?:(data:responseType)=>void,
 }

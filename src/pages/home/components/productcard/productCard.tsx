@@ -32,20 +32,23 @@ const Color = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
 `;
 
-interface productProps {
-  src: string;
-  name: string;
-  desc?: string;
+export interface productProps {
+  img: string;
+  productName: string;
+  description: string;
   price: number;
   rating: number;
+  _id:string;
+  mileage:"new"|"featured"
+  
 }
 const ProductCard = (props: productProps) => {
-  const { src, name,  price, rating } = props;
+  const { img, productName,  price, rating , } = props;
  
   return (
     <motion.div className="product-card-con">
       <motion.div className="card-bg">
-        <Img src={src} />
+        <Img src={img} />
         <div className="option-con">
           <IoCartOutline size={20} color="rgb(0,0,0,0.5)" />
           <MdFavoriteBorder size={20} color="rgb(0,0,0,0.5)" />
@@ -57,7 +60,7 @@ const ProductCard = (props: productProps) => {
       <Rating no={rating} />
 
       
-      <Name>{name}</Name>
+      <Name>{productName}</Name>
       <Price>${price}</Price>
       <Colors>
         <Color color="#4d4a4a" />

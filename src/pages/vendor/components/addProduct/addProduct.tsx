@@ -4,6 +4,13 @@ import upload from "../../../../assets/uploadImg.jpg";
 import React, { useState } from "react";
 import uploadFile from "../../../../upload/addImg";
 import Spinner from "react-bootstrap/Spinner";
+import ErrorsModal from "./errorsModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../state/store";
+import fetch_helper from "../../../../helpers/fetchhelper";
+import apiEntry from "../../../../apiEntry";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { responseType } from "../../../Register/register";
 
 const Container = styled.div`
   width: 100%;
@@ -98,6 +105,10 @@ const Inp = styled.input`
   height: 40px;
   width: 350px;
   color: white;
+  &.small-radio {
+    height: 20px;
+    width: 20px;
+  }
 `;
 const TextArea = styled.textarea`
   background-color: rgba(13, 46, 90, 0.322);
@@ -134,6 +145,10 @@ const PicCon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+const RadioButton = styled.div`
+  display: flex;
+  text-transform: capitalize;
 `;
 const Color = styled.div<{ col: string }>`
   width: 40px;
@@ -172,10 +187,14 @@ const Prog = styled.div<{ progress: progressType }>`
   align-items: center;
   justify-content: center;
 `;
-export type previewType={
-  id:string,
-  img:string
-}
+const RadioGroup = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+export type previewType = {
+  id: string;
+  img: string;
+};
 
 type pictureProp = {
   id: string;
@@ -230,6 +249,7 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
         );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+    
       uploadFile({
         setProgress,
         file: e.target.files[0],
@@ -238,7 +258,6 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
         productName,
         id,
       });
-    
 
       // fn(
       //   previewImages.map((img) => {
@@ -250,8 +269,8 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
       // );
     }
   };
-  const currentImg=previewImages.filter(img=>img.id===id)[0]
-  console.log({currentImg})
+  const currentImg = previewImages.filter((img) => img.id === id)[0];
+  console.log({ currentImg });
 
   return (
     <PicCon>
@@ -265,21 +284,111 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
 };
 
 const AddProduct = () => {
-  const [price, setPrice] = useState("");
+
+  const location=useLocation()
+  const token = localStorage.getItem("buyit_token");
+  const user = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  if (!user.is_logged_in || !token) {
+    navigate("/");
+  }
+  const [uploadingProduct,setUploadingProduct]= useState<boolean>(false)
+  const [mileage,setMileage] = useState<string>("new");
+  const [price, setPrice] = useState(0);
   const [title, setTitle] = useState("");
   const [index, setIndex] = useState(0);
+  const [description, setDescription] = useState("");
+
   const [colors, setColors] = useState<string[]>([]);
   const [currentColor, setCurrentColor] = useState("#fffff");
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState(defaultPreviewImages);
-  console.log(previewImages)
+  const [errors, setErrors] = useState<string[]>([]);
+  const [stock, setStock] = useState(1);
+  console.log(mileage);
+
+  const add_products = () => {
+    const onSuccess = (data: responseType) => {
+      console.log(data);
+      alert("product was added successfully");
+      setUploadingProduct(false);
+      window.location.reload()
+      
+
+      
+    };
+    // first empty the list of errors
+    setErrors([]);
+    const temporary_errors = [];
+
+    // checks if user uploaded an image
+    const images_were_added =
+      JSON.stringify(previewImages) !== JSON.stringify(defaultPreviewImages);
+    if (!images_were_added) {
+      temporary_errors.push("At least one image is required");
+    }
+    if (colors.length === 0) {
+      temporary_errors.push("At least one color is required");
+    }
+    if (title.length === 0) {
+      temporary_errors.push("Product name cannot be left blank");
+    }
+    if (price === 0) {
+      temporary_errors.push("Product price cannot be left blank");
+    }
+
+    if (temporary_errors.length > 0) {
+      setModalOpen(!modalOpen);
+    } else {
+      setUploadingProduct(true)
+      fetch_helper({
+
+        method: "post",
+        url: `${apiEntry}/products/new`,
+        onSuccess,
+        token,
+        body: {
+          productName: title,
+          stock,
+          img: previewImages[0].img,
+          price: price - 0.01,
+          description,
+          colors,
+          otherImages: previewImages
+            .filter((img) => img.img !== upload)
+            .map((img) => img.img),
+            mileage
+        },
+      });
+    }
+
+    setErrors(temporary_errors);
+  };
+  console.log(previewImages);
   return (
     <Container>
       <ProductHeader>
         <HeaderText>Add Product</HeaderText>
         <BtnsCon>
           <Button variant="outline-success"> Save Draft</Button>
-          <Button variant="primary"> Add Product</Button>
+          <Button onClick={add_products} disabled={uploadingProduct} variant="primary">
+            {" "}
+            {
+            uploadingProduct&&(<Spinner
+
+              style={{
+                width: "15px",
+                color: "#ffffff",
+                height: "15px",
+                marginTop: "5px",
+                marginRight:"10px"
+              }}
+              animation="border"
+              role="status"
+            ></Spinner>)
+            }
+            Add Product
+          </Button>
         </BtnsCon>
       </ProductHeader>
       <ProductInfoCon>
@@ -297,14 +406,18 @@ const AddProduct = () => {
 
             <Detail>
               <Label>Product Description:</Label>
-              <TextArea></TextArea>
+              <TextArea
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                  setDescription(e.target.value);
+                }}
+              ></TextArea>
             </Detail>
             <Detail>
               <Label>Price:</Label>
               <Inp
                 type="number"
                 onChange={(e) => {
-                  setPrice(e.target.value);
+                  setPrice(Number(e.target.value));
                 }}
               />
             </Detail>
@@ -346,8 +459,47 @@ const AddProduct = () => {
           </PreviewDetailCon>
           <Detail>
             <Label>Stock:</Label>
-            <Inp type="number" />
+            <Inp
+              onChange={(e) => {
+                setStock(Number(e.target.value));
+              }}
+              type="number"
+              value={stock}
+            />
           </Detail>
+          <PreviewDetailCon>
+            <RadioGroup>
+              <RadioButton>
+                <Label htmlFor="new">New product</Label>
+                <Inp
+                  className="small-radio"
+                  type="radio"
+                  name="new/featured"
+                  id="new"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMileage(e.target.id);
+                    }
+                  }}
+                />
+              </RadioButton>
+
+              <RadioButton>
+                <Label htmlFor="featured">featured product</Label>
+                <Inp
+                  className="small-radio"
+                  id="featured"
+                  name="new/featured"
+                  type="radio"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setMileage(e.target.id);
+                    }
+                  }}
+                />
+              </RadioButton>
+            </RadioGroup>
+          </PreviewDetailCon>
           <PreviewDetailCon>
             <ColorInp
               value={currentColor}
@@ -380,6 +532,11 @@ const AddProduct = () => {
           </ColorsCon>
         </Preview>
       </ProductInfoCon>
+      <ErrorsModal
+        closeModal={setModalOpen}
+        modalOpen={modalOpen}
+        errors={errors}
+      />
     </Container>
   );
 };

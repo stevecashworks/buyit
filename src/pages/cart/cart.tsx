@@ -115,7 +115,6 @@ const  Cart=()=>{
         setTimeout(()=>{setLoading(false)},2000)
     }
 const {state}=useContext(CartContext)
-console.log({state})
 let TotalPrice=0
 state.editedCart.forEach(prod=>{
    TotalPrice+= prod.price*prod.quantity 
