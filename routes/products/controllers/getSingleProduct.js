@@ -5,7 +5,7 @@ const get_single_product=async(req,res,next)=>{
  try {
     const {id}= req.params
     const this_product= await productModel.findById(id)
-    return req.status(200).json({success:true,result:this_product})
+    return res.status(200).json({success:true,result:this_product})
  } catch (error) {
     next(createCustomError(error.message))
  }

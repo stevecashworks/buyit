@@ -34,14 +34,15 @@ server.use("/cart",cartRoute)
 
 
 //  handle errors
- server.use(error_handler)
+server.use(error_handler)
 
 const startServer=async()=>{
     try {
         await connect_db(process.env.mongo_uri)
-            server.listen(port, () => {
-              console.log(`server is listening on port : ${port}`);
-            });        
+        console.log("done")
+        server.listen(port, () => {
+            console.log(`server is listening on port : ${port}`);
+        });        
     } catch (error) {
         console.log(error.message)
     }

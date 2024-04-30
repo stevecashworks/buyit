@@ -13,6 +13,10 @@ const productSchema = mongoose.Schema({
         type:String,
         default:"No description was provided for this product"
     },
+    colors:{
+     type:[],
+     required:true   
+    },
     price:{
         type:Number,
         required:true
@@ -29,6 +33,18 @@ const productSchema = mongoose.Schema({
     otherImages:{
         type:[],
         default:[]
+    },
+    rating:{
+        type:Number,
+        default:4.5
+    },
+   mileage :{
+                type:String
+
+    },
+    categories:{
+            type:[],
+            default:[]
     }
 })
 export default  mongoose.model("products", productSchema)
