@@ -1,4 +1,4 @@
-![Home Page]("./readme-images/buyit-homepage.PNG?raw=true")
+![Home Page]("readme-images/buyit-homepage.PNG")
 global state for the entire application is managed from "app" level in app.js
 
 
