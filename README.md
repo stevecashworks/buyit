@@ -1,9 +1,13 @@
-![Home Page]("./readme-images/buyit-homepage.PNG")
-global state for the entire application is managed from "app" level in app.js
+# Project Title
 
+![Home Page](readme-images/buyit-homepage.png)
 
-whenever links to the backend application changes, the only place to update it is in the "apiEntry.ts" file in the "src" directory 
-never redefine apiEntry point any where else in the application  in order to be organized
+## Configuration
 
+- **Global State Management**: The global state for the entire application is managed from the "app" level in `app.js`.
 
-on the home page, if a token is recognized the data is fetchedb and application state is changed as reducers are dispatched 
+- **Backend API Configuration**: Whenever links to the backend application change, the only place to update it is in the `apiEntry.ts` file located in the `src` directory. Never redefine the API entry point anywhere else in the application to maintain organization.
+
+## Home Page Behavior
+
+On the home page, if a token is recognized, the data is fetched and the application state is changed as reducers are dispatched.
