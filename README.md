@@ -1,6 +1,6 @@
 # Project Title
 
-![Home Page](readme-images/buyit-homepage.png)
+![Home Page](readme-images/buyit-homepage.PNG)
 
 ## Configuration
 
