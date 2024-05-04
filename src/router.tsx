@@ -9,7 +9,7 @@ import Register from "./pages/Register/register";
 const routes=[
 {path:"/", element:<Home/>},
 {path:"/singleproduct/:id",element:<SingleProduct/>},
-{path:"/cart/:id",element:<WrappedCart/>},
+{path:"/cart",element:<WrappedCart/>},
 {path:"/vendor",element:<Vendor/>},
 {path:"/login", element:<Login/>},
 {path:"/register", element:<Register/>},

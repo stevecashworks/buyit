@@ -17,7 +17,7 @@ import { RootState } from "../../state/store";
 import { useEffect, useState } from "react";
 import PopUp from "./popup";
 import { productProps } from "./components/productcard/productCard";
-import { setCart } from "../../state/cart/cartSlice";
+import { setClientCart, setDatabaseCart } from "../../state/cart/cartSlice";
 const Container = styled.div`
   width: 100vw;
   background-color: var(--${(props) => props.theme});
@@ -80,7 +80,8 @@ const Home = () => {
         onSuccess:(data:responseType)=>{
           type cartResultType= {userId:string,products:{productId:string,quantity:number}[]}
           const {products, userId}=data.result as cartResultType
-          dispatch(setCart({products,userId}))
+          dispatch(setDatabaseCart({products,userId}))
+          dispatch(setClientCart({products,userId}))
         }
       })
       

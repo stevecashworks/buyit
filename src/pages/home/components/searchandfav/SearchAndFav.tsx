@@ -6,7 +6,7 @@ import { FavCon, FavValue } from "../header/header";
 import responsive from "../../../../responsive";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../state/store";
+import { selectClientCart } from "../../../../state/cart/cartSlice";
 
 const Container = styled.div`
   width: 80vw;
@@ -56,11 +56,8 @@ const IconsCon = styled.div`
 const LogoImg = styled.img`
   height: 40px;
 `;
-type propType={
-  cartLength:number
-}
 const SearchAndFav = () => {
-  const cart= useSelector((state:RootState)=>state.cart)
+  const cart= useSelector(selectClientCart)
   return (
     <>
       <Container>
@@ -74,7 +71,7 @@ const SearchAndFav = () => {
         </InputCon>
         <IconsCon>
           <CiSettings style={{ fontSize: "30px" }} />
-          <Link style={{color:"black"}} to="/cart/id">
+          <Link style={{color:"black"}} to="/cart">
           <FavCon>
             <IoCartOutline style={{ fontSize: "30px" }} />
             <FavValue>{cart.products.length}</FavValue>
