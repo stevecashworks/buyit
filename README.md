@@ -1,4 +1,4 @@
-![Home Page]("gs://buyit-fc96e.appspot.com/buyit-homepage.PNG")
+![Home Page]("./readme-images/buyit-homepage.PNG")
 global state for the entire application is managed from "app" level in app.js
 
 
