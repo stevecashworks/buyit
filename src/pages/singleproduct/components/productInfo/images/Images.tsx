@@ -5,6 +5,7 @@ import camera from "../../../../../assets/cam.png";
 import smartWatch from "../../../../../assets/products/home.png";
 import { useRef, useState } from "react";
 import responsive from "../../../../../responsive";
+import { singleProductType } from "../productInfo";
 
 const Container = styled.div`
   display: flex;
@@ -61,9 +62,11 @@ const Img = styled.img`
   width: 80px;
 `;
 
-const Images = () => {
-  const photos = [ smartWatch,sneakers, flask, camera];
-  const [image, setImage] = useState(sneakers);
+const Images = ({img, otherImages}:singleProductType )=> {
+  console.log({img})
+  // const photos = [ smartWatch,sneakers, flask, camera]
+
+  const [image, setImage] = useState(img);
     console.log(image)
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -91,7 +94,7 @@ const Images = () => {
         onMouseMove={handleMouseMove}
       ></TopContainer>
       <BottomContainer>
-        {photos.map((prod) => {
+        {otherImages.map((prod) => {
           return (
             <ImgCon active={prod===image}
               onClick={() => {

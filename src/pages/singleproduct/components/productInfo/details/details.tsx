@@ -10,11 +10,18 @@ import {
   FaShare,
   FaTwitter,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { GoBookmarkFill } from "react-icons/go";
 import { PiShoppingCartFill } from "react-icons/pi";
 import responsive from "../../../../../responsive";
+import { singleProductType } from "../productInfo";
+import fetch_helper from "../../../../../helpers/fetchhelper";
+import apiEntry from "../../../../../apiEntry";
+import { responseType } from "../../../../Register/register";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../state/store";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 700px;
@@ -85,7 +92,7 @@ const SelectSize = styled.p`
   margin: 20px 0;
   color: rgb(0, 0, 0, 0.5);
 `;
-const cols = ["#ddd", "#8ab9e7", "#ecec6a"];
+// const cols = ["#ddd", "#8ab9e7", "#ecec6a"];/
 const Color = styled.div<{ col: string }>`
   width: 35px;
   height: 35px;
@@ -180,17 +187,44 @@ const SocialIconCon = styled.div`
   }
 `;
 const sizes = ["s", "m", "l", "xl"];
-const Details = () => {
-  const [currentColor, setCurrentColor] = useState(cols[0]);
-  const [currentSize, setCurrentSize] = useState(sizes[0]);
-  const [quantity, setQuantity] = useState(1);
+const Details = ({productName,rating, description,price,colors}:singleProductType) => {
+const [currentColor, setCurrentColor] = useState(colors[0]);
+const [currentSize, setCurrentSize] = useState(sizes[0]);
+const [quantity, setQuantity] = useState(1);
+const isLogged=useSelector((state:RootState)=>state.user.is_logged_in)
+const params=useParams();
+const productId= params["id"]
+
+  
+  
+
+  
+  console.log({colors})
+
+  const add_to_cart=()=>{
+    const onSuccess=(data:responseType)=>{
+      console.log(data.result)
+    }
+    if (!isLogged) {
+      alert("you must be logged in first");
+    } else {
+      const token= localStorage.getItem("buyit_token")
+      fetch_helper({
+        method:"post",
+        url: `${apiEntry}/cart/addproduct`,
+        body:{quantity, productId},
+        token,
+        onSuccess
+      })
+    }
+  }
   return (
     <Container>
       {/* product stats starts */}
-      <Top>🔥 Blazing offers just for you</Top>
-      <ProductName>Super Fashion sneakers</ProductName>
+      <Top>🔥  {productName}</Top>
+      <ProductName>{description}</ProductName>
       <RatingCon>
-        <Rating no={3.5} />
+        <Rating no={rating} />
         <NoOfRating>120 ratings</NoOfRating>
       </RatingCon>
       <RatingCon>
@@ -199,13 +233,13 @@ const Details = () => {
       </RatingCon>
       {/* products stats end */}
       <PriceCon>
-        <Price>$ 599.99</Price>
+        <Price>$ {price}</Price>
         <FormerPrice>$8999.99</FormerPrice>
         <Discount> 30% off</Discount>
       </PriceCon>
       {/* color selection starts */}
       <ColorsCon>
-        {cols.map((col) => {
+        {colors.map((col) => {
           return (
             <Color
               onClick={() => {
@@ -263,7 +297,7 @@ const Details = () => {
 
       {/* cart btns  start*/}
       <CartBtns>
-        <CartBtn>
+        <CartBtn onClick={add_to_cart}>
           <PiShoppingCartFill style={{ marginRight: "10px" }} />
           add to cart
         </CartBtn>

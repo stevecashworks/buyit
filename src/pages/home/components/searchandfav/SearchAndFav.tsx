@@ -5,6 +5,8 @@ import { IoCartOutline } from "react-icons/io5";
 import { FavCon, FavValue } from "../header/header";
 import responsive from "../../../../responsive";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../state/store";
 
 const Container = styled.div`
   width: 80vw;
@@ -54,8 +56,11 @@ const IconsCon = styled.div`
 const LogoImg = styled.img`
   height: 40px;
 `;
-
+type propType={
+  cartLength:number
+}
 const SearchAndFav = () => {
+  const cart= useSelector((state:RootState)=>state.cart)
   return (
     <>
       <Container>
@@ -72,7 +77,7 @@ const SearchAndFav = () => {
           <Link style={{color:"black"}} to="/cart/id">
           <FavCon>
             <IoCartOutline style={{ fontSize: "30px" }} />
-            <FavValue>0</FavValue>
+            <FavValue>{cart.products.length}</FavValue>
           </FavCon>
           </Link>
         </IconsCon>

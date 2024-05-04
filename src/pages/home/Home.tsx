@@ -17,6 +17,7 @@ import { RootState } from "../../state/store";
 import { useEffect, useState } from "react";
 import PopUp from "./popup";
 import { productProps } from "./components/productcard/productCard";
+import { setCart } from "../../state/cart/cartSlice";
 const Container = styled.div`
   width: 100vw;
   background-color: var(--${(props) => props.theme});
@@ -27,7 +28,8 @@ const Home = () => {
   const [open,setOpen]=useState(false)
   const [products,setProducts]=useState<productProps[]>([])
   const user=useSelector((state:RootState)=>state.user)
-  console.log(user)
+
+  // console.log(user)
   const dispatch=useDispatch()
   const onSuccessfulProductsFetch=(data:responseType)=>{
     if(Array.isArray(data.result)){
@@ -46,11 +48,14 @@ const Home = () => {
     const details={_id,userName,userType}
     console.log(user)
     dispatch(log_user_in(details))
+
   
 
   }
   useEffect(()=>{
+    
       const token = localStorage.getItem("buyit_token");
+      //  get user details  by jwt token   and update state
       if(token){
           fetch_helper({
             method: "post",
@@ -61,10 +66,22 @@ const Home = () => {
 
 
       }
+      //  fetches products  and updates application state
       fetch_helper({
         url:`${apiEntry}/products/all`,
         method:"get",
         onSuccess:onSuccessfulProductsFetch
+      })
+      //  fetch cart details 
+      fetch_helper({
+        url:`${apiEntry}/cart/viewcart`,
+        method:"post",
+        token,
+        onSuccess:(data:responseType)=>{
+          type cartResultType= {userId:string,products:{productId:string,quantity:number}[]}
+          const {products, userId}=data.result as cartResultType
+          dispatch(setCart({products,userId}))
+        }
       })
       
 
@@ -73,7 +90,13 @@ const Home = () => {
   
   return (
     <Container>
-      <PopUp open={open} toggle={setOpen} />
+      <PopUp
+        open={open}
+        message={
+          "A vendor account has been detected on this device, visit the vendor page?"
+        }
+        toggle={setOpen}
+      />
       <Header />
       <SearchAndFav />
       <Links />
@@ -81,8 +104,8 @@ const Home = () => {
       <Services />
       <HotDeals products={products} />
       <Categories />
-      <Products products={products}/>
-      <Footer/>
+      <Products products={products} />
+      <Footer />
     </Container>
   );
 };

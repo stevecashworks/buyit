@@ -1,5 +1,5 @@
+![Home Page]("gs://buyit-fc96e.appspot.com/buyit-homepage.PNG")
 global state for the entire application is managed from "app" level in app.js
-
 
 
 whenever links to the backend application changes, the only place to update it is in the "apiEntry.ts" file in the "src" directory 

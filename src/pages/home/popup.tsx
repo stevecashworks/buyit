@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { linkStyle } from "../Register/register";
 type propType={
     open:boolean,
-    toggle:React.Dispatch<React.SetStateAction<boolean>>
+    toggle:React.Dispatch<React.SetStateAction<boolean>>, 
+    message:string
     
 }
-function PopUp({open,toggle}:propType) {
+function PopUp({open,toggle, message}:propType) {
   
 
   const handleClose = () => toggle(false);
@@ -26,7 +27,7 @@ function PopUp({open,toggle}:propType) {
           <Modal.Title>Vendor Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          A vendor account has been detected on this device, visit the vendor page?
+          {message}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleClose}>
