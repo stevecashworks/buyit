@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import sneakers from "../../../../../assets/products/sneakers.png";
-import flask from "../../../../../assets/products/studs.png";
-import camera from "../../../../../assets/cam.png";
-import smartWatch from "../../../../../assets/products/home.png";
+
 import { useEffect, useRef, useState } from "react";
 import responsive from "../../../../../responsive";
 import { singleProductType } from "../productInfo";

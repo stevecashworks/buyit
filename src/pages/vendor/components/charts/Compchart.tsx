@@ -1,4 +1,4 @@
-import { Area, Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Area, Bar, CartesianGrid, ComposedChart, Legend, Line,  Tooltip, XAxis, YAxis } from "recharts"
 
 const data = [
   {

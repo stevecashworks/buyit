@@ -1,16 +1,9 @@
 import "./hotDeals.css";
 import ProductCard, { productProps } from "../productcard/productCard";
 import styled from "styled-components";
-import home from "../../../../assets/products/home.png";
-import studs from "../../../../assets/products/studs.png";
-import sneaker from "../../../../assets/products/sneakers.png";
-import headset from "../../../../assets/products/headset.png";
 import responsive from "../../../../responsive";
 import { Link } from "react-router-dom";
-import fetch_helper from "../../../../helpers/fetchhelper";
-import apiEntry from "../../../../apiEntry";
-import { responseType } from "../../../Register/register";
-import { useState } from "react";
+
 const Container = styled.div`
   width: 80vw;
   margin: 20px auto;

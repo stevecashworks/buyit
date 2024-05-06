@@ -1,12 +1,7 @@
 import styled from "styled-components"
 import {useState, useRef, useEffect} from "react"
-import  flask from "../../../../assets/products/flask.png"
-import sneaker from "../../../../assets/products/sneakers.png"
-import ProductCard, { productProps } from "../productcard/productCard"
+import ProductCard from "../productcard/productCard"
 import responsive from "../../../../responsive"
-import fetch_helper from "../../../../helpers/fetchhelper"
-import apiEntry from "../../../../apiEntry"
-import { responseType } from "../../../Register/register"
 import { productListType } from "../hotdeals/hotDeals"
 
 const Container=styled.div`
@@ -31,8 +26,7 @@ const Choices= styled.div`
 display:flex;
 gap:20px;
 `
-const sampleProduct={productName:"flask", description:"Retains temperature", price:30, img:flask, rating:5}
-const sampleProduct2={productName:"Sneakers", description:"Comfortable sneakers", price:30, img:sneaker, rating:5}
+
 const Choice=styled.p<{selected:boolean}>`
     background-color:${props=>props.selected?"var(--info)":"transparent"} ;
     color:${props=>props.selected?"white":"black"} ;

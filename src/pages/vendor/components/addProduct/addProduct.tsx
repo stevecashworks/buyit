@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../state/store";
 import fetch_helper from "../../../../helpers/fetchhelper";
 import apiEntry from "../../../../apiEntry";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import {   useNavigate } from "react-router-dom";
 import { responseType } from "../../../Register/register";
 
 const Container = styled.div`
@@ -285,7 +285,7 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
 
 const AddProduct = () => {
 
-  const location=useLocation()
+  
   const token = localStorage.getItem("buyit_token");
   const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();

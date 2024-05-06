@@ -10,7 +10,7 @@ import {
   FaShare,
   FaTwitter,
 } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { GoBookmarkFill } from "react-icons/go";
 import { PiShoppingCartFill } from "react-icons/pi";

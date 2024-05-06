@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import styled from "styled-components";
 import { motion } from "framer-motion";
