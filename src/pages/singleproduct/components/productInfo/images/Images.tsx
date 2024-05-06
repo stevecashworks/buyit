@@ -3,7 +3,7 @@ import sneakers from "../../../../../assets/products/sneakers.png";
 import flask from "../../../../../assets/products/studs.png";
 import camera from "../../../../../assets/cam.png";
 import smartWatch from "../../../../../assets/products/home.png";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import responsive from "../../../../../responsive";
 import { singleProductType } from "../productInfo";
 
@@ -67,6 +67,7 @@ const Images = ({img, otherImages}:singleProductType )=> {
   // const photos = [ smartWatch,sneakers, flask, camera]
 
   const [image, setImage] = useState(img);
+  useEffect(()=>{setImage(otherImages[0])},[otherImages])
     console.log(image)
   const containerRef = useRef<HTMLDivElement>(null);
 

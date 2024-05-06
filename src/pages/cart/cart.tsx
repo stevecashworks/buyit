@@ -6,11 +6,18 @@ import PageTitle from "../singleproduct/components/PageTitle/pageTitle";
 import Row from "./components/row";
 import responsive from "../../responsive";
 import Footer from "../home/components/footer/footer";
-import AppWrapper, { CartContext } from "../../state";
-import { useContext, useState } from "react";
-
+import { useState } from "react";
 import {Table} from "react-bootstrap"
 import { Spinner} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { cartStateType, selectClientCart, selectDatabaseCart, setDatabaseCart } from "../../state/cart/cartSlice";
+import { selectKey } from "../../state/payment/paymentSlice";
+import { usePaystackPayment } from "react-paystack";
+import { selectRates } from "../../state/rates/rates";
+import fetch_helper from "../../helpers/fetchhelper";
+import apiEntry from "../../apiEntry";
+import { linkStyle, responseType } from "../Register/register";
+import { Link } from "react-router-dom";
 
 
 
@@ -94,11 +101,11 @@ const Btn = styled.button<{ content: string }>`
     font-size:12px;
   `)}
 `;
-const UpdateButton = styled.button<{ hasChanged: boolean }>`
+const UpdateButton = styled.button<{ has_changed: boolean }>`
   color: white;
   background-color: blueviolet;
   border-radius: 10px;
-  opacity: ${(props) => (props.hasChanged ? 0.5 : 0)};
+  opacity: ${(props) => (props.has_changed ? 0.5 : 0)};
   transition: all 0.5s ease 0.2s;
   &:hover {
     opacity: 1;
@@ -108,20 +115,66 @@ const UpdateButton = styled.button<{ hasChanged: boolean }>`
   `)}
 `;
 const  Cart=()=>{
+  const dispatch=useDispatch()
+  const token=localStorage.getItem("buyit_token")
     const [loading, setLoading]=useState(false)
+    const publicKey=useSelector(selectKey)
+    const rates=useSelector(selectRates)
+    console.log(rates["NGN"])
+  
+    const databaseCart=useSelector(selectDatabaseCart)
+    const clientCart=useSelector(selectClientCart)
+    const TotalPrice= Number((clientCart.products.reduce((acc,item)=>acc+(item.price*item.quantity),0)).toFixed(2))
+        const onSuccess = (reference: any) => {
+          // Implementation for whatever you want to do with reference and after success call.
+          console.log(reference);
+        };
+
+        // you can call this function anything
+        const onClose = () => {
+          // implementation for  whatever you want to do when the Paystack dialog closed.
+          console.log("closed");
+        };
     
+       const config = {
+         reference: new Date().getTime().toString(),
+         email: "user@example.com",
+         amount: (TotalPrice*100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+         publicKey,
+         onSuccess,
+         onClose
+         
+       };
+       const initializePayment = usePaystackPayment(config)
     const updateCart=()=>{
+      
         setLoading(true)
-        setTimeout(()=>{setLoading(false)},2000)
+      const onSuccess=(data:responseType)=>{
+        const {userId,products}=data.result as cartStateType
+        const fetchedData={userId,products}
+        dispatch(setDatabaseCart(fetchedData))
+        setLoading(false)
+        window.location.reload()
+      
+      }
+      fetch_helper({
+        method:"post",
+        url:`${apiEntry}/cart/edit`,
+        body:clientCart,
+        token,
+        onSuccess,
+        onError:(err)=> {
+          console.log(err)
+        },
+      })
+
     }
-const {state}=useContext(CartContext)
-let TotalPrice=0
-state.editedCart.forEach(prod=>{
-   TotalPrice+= prod.price*prod.quantity 
-})
-const {editedCart,fetchedCart}=state
+
+   
+
+
 // serialize both arrays and compare their resulting strings
-const cartHasChanged=    JSON.stringify(editedCart)!==JSON.stringify(fetchedCart)
+const cartHasChanged:boolean=    JSON.stringify(clientCart)!==JSON.stringify(databaseCart)
     return (
       <Container>
         <Header />
@@ -129,8 +182,7 @@ const cartHasChanged=    JSON.stringify(editedCart)!==JSON.stringify(fetchedCart
         <PageTitle left="cart" right="home/cart" />
         <TableCon>
           {/* <ProductTable> */}
-          <Table responsive >
-
+          <Table responsive>
             <thead>
               <Tr>
                 <Th>Image</Th>
@@ -142,25 +194,40 @@ const cartHasChanged=    JSON.stringify(editedCart)!==JSON.stringify(fetchedCart
               </Tr>
             </thead>
             <tbody>
-              {state.editedCart.map((row) => (
-                <Row {...row} />
+              {clientCart.products.map((row) => (
+                <Row key={row.productId} {...row} />
               ))}
             </tbody>
-          {/* </ProductTable> */}
-                </Table>
+            {/* </ProductTable> */}
+          </Table>
         </TableCon>
         <TotalPriceCon>
-          <UpdateButton onClick={updateCart} hasChanged={cartHasChanged}>
-            {loading&&<Spinner style={{width:"20px", height:"20px", marginRight:"10px"}} animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>}
+          <UpdateButton onClick={updateCart} has_changed={cartHasChanged}>
+            {loading && (
+              <Spinner
+                style={{ width: "20px", height: "20px", marginRight: "10px" }}
+                animation="border"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
             Save changes
           </UpdateButton>
-          <p>Total price: ${TotalPrice}</p>
+          <p>Total price: ₦{TotalPrice}</p>
         </TotalPriceCon>
         <BtnsCon>
+          <Link style={linkStyle} to="/">
           <Btn content="continue shopping">Continue Shopping</Btn>
-          <Btn content="checkout">checkout</Btn>
+          </Link>
+          <Btn
+            content="checkout"
+            onClick={() => {
+              initializePayment(onSuccess, onClose);
+            }}
+          >
+            checkout
+          </Btn>
         </BtnsCon>
         <Footer />
       </Container>
@@ -168,7 +235,9 @@ const cartHasChanged=    JSON.stringify(editedCart)!==JSON.stringify(fetchedCart
 }
 const WrappedCart=()=>{
     return(
-        <AppWrapper children={<Cart/>}/>
+       <Cart>
+        
+       </Cart>
     )
 }
 export default WrappedCart

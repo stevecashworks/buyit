@@ -21,7 +21,7 @@ const fetch_helper=({method,body,url,token,onError,onSuccess}:fetch_arguments)=>
 
  const options=method==="post"?postOptions:{}
         fetch(url,options).then(res=>res.json()).then(data=>{
-            console.log(data)
+        
             if(data.success){
                 if (onSuccess) {
                   onSuccess(data);

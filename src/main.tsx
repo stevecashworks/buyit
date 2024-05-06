@@ -5,11 +5,10 @@ import router from "./router.tsx"
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './state/store.ts';
+import App from './App.tsx';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <Provider store={store}>
-
-    <RouterProvider router={router}/>
-    </Provider>
-    
-)
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
+    <App children={<RouterProvider router={router} />}></App>
+  </Provider>
+);

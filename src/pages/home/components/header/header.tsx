@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useContext } from "react";
-import { AppContext } from "../../../../App";
 import { FaPhone } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { PiSunDimLight } from "react-icons/pi";
@@ -8,6 +6,8 @@ import { LuMoonStar } from "react-icons/lu";
 import { IoPerson } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import responsive from "../../../../responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTheme, toggleTheme } from "../../../../state/theme/themeSlice";
 
 const Container = styled.div<{ theme: string }>`
   width: 100vw;
@@ -98,7 +98,8 @@ const AccountCon = styled.div`
   align-items: center;
 `;
 const Header = () => {
-  const { theme, setTheme } = useContext(AppContext);
+  const theme= useSelector(selectTheme)
+  const dispatch=useDispatch()
   return (
     <>
       <Container theme={theme}>
@@ -119,7 +120,7 @@ const Header = () => {
           </FavCon>
           <ThemeCon
             onClick={() => {
-              setTheme(theme === "light" ? "dark" : "light");
+              dispatch(toggleTheme())
             }}
           >
             <PiSunDimLight />

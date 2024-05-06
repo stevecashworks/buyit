@@ -187,7 +187,7 @@ const SocialIconCon = styled.div`
   }
 `;
 const sizes = ["s", "m", "l", "xl"];
-const Details = ({productName,rating, description,price,colors}:singleProductType) => {
+const Details = ({productName,img,rating, description,price,colors}:singleProductType) => {
 const [currentColor, setCurrentColor] = useState(colors[0]);
 const [currentSize, setCurrentSize] = useState(sizes[0]);
 const [quantity, setQuantity] = useState(1);
@@ -212,7 +212,8 @@ const productId= params["id"]
       fetch_helper({
         method:"post",
         url: `${apiEntry}/cart/addproduct`,
-        body:{quantity, productId},
+        body:{quantity, productId,price,img, name:productName},
+        
         token,
         onSuccess
       })

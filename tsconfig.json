@@ -18,8 +18,13 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"  // Your custom types directory
+    ],
   },
-  "include": ["src"],
+  
+  "include": ["src","types/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

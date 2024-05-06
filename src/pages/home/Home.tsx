@@ -8,16 +8,11 @@ import HotDeals from "./components/hotdeals/hotDeals";
 import Categories from "./components/categories/categories";
 import Products from "./components/products/products";
 import Footer from "./components/footer/footer";
-import {  useDispatch, useSelector } from "react-redux";
-import fetch_helper from "../../helpers/fetchhelper";
-import apiEntry from "../../apiEntry";
-import { responseType } from "../Register/register";
-import { log_user_in, user_details_type } from "../../state/users/userslice";
+import {  useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { useEffect, useState } from "react";
 import PopUp from "./popup";
-import { productProps } from "./components/productcard/productCard";
-import { setClientCart, setDatabaseCart } from "../../state/cart/cartSlice";
+import { selectProducts } from "../../state/products/productSlice";
 const Container = styled.div`
   width: 100vw;
   background-color: var(--${(props) => props.theme});
@@ -25,68 +20,14 @@ const Container = styled.div`
 
 
 const Home = () => {
-  const [open,setOpen]=useState(false)
-  const [products,setProducts]=useState<productProps[]>([])
+  
   const user=useSelector((state:RootState)=>state.user)
-
+  const products= useSelector(selectProducts)
+ const user_is_a_vendor= user.userDetails.userType==="vendor"
+ const [open,setOpen]=useState(user_is_a_vendor)
+ useEffect(()=>{setOpen(user_is_a_vendor)}, [user])
   // console.log(user)
-  const dispatch=useDispatch()
-  const onSuccessfulProductsFetch=(data:responseType)=>{
-    if(Array.isArray(data.result)){
-
-      setProducts(data.result)
-    }
-  }
-  
-  const onSuccess=(data:responseType)=>{
-    const {result}=data
-    const {_id, userName, userType}=result as user_details_type
-    if(userType==="vendor"){
-      setOpen(true)
-    }
-  
-    const details={_id,userName,userType}
-    console.log(user)
-    dispatch(log_user_in(details))
-
-  
-
-  }
-  useEffect(()=>{
-    
-      const token = localStorage.getItem("buyit_token");
-      //  get user details  by jwt token   and update state
-      if(token){
-          fetch_helper({
-            method: "post",
-            url: `${apiEntry}/users/token`,
-            token,
-            onSuccess,
-          });
-
-
-      }
-      //  fetches products  and updates application state
-      fetch_helper({
-        url:`${apiEntry}/products/all`,
-        method:"get",
-        onSuccess:onSuccessfulProductsFetch
-      })
-      //  fetch cart details 
-      fetch_helper({
-        url:`${apiEntry}/cart/viewcart`,
-        method:"post",
-        token,
-        onSuccess:(data:responseType)=>{
-          type cartResultType= {userId:string,products:{productId:string,quantity:number}[]}
-          const {products, userId}=data.result as cartResultType
-          dispatch(setDatabaseCart({products,userId}))
-          dispatch(setClientCart({products,userId}))
-        }
-      })
-      
-
-  },[])
+ 
   
   
   return (

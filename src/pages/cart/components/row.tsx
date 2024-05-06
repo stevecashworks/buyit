@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useContext,  } from "react";
 import { Button } from "react-bootstrap";
 import responsive from "../../../responsive";
-import { CartContext } from "../../../state";
 import { FaTrash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { removeFromCart, setQuantity } from "../../../state/cart/cartSlice";
 
 const Container=styled.tr`
     
@@ -33,35 +33,35 @@ outline:none;
 `
 
  type rowProps={
-    image:string,
+    img:string,
     name:string, 
     quantity:number,
-    id:number,
+    productId:string,
     price:number
 
  }
  
- const Row=({image, name,quantity, id,price}:rowProps)=>{
-  console.log({id})
-const {dispatch}=useContext(CartContext)
-    const handleChange=(e:React.ChangeEvent<HTMLInputElement>, )=>{
-      dispatch({type:"changeQuantity",payload:{id,quantity:Number(e.target.value)}})
+ const Row=({img, name,quantity, productId,price}:rowProps)=>{
+  const dispatch=useDispatch() 
+  const handleChange=(e:React.ChangeEvent<HTMLInputElement>, )=>{
+      dispatch(setQuantity({id:productId,quantity:Number(e.target.value)}))
          
      
  }
-  const handleDelete = (id:number) => {
-    dispatch({ type: "removeProduct", payload: { id } });
+  const handleDelete = (id:string) => {
+    dispatch(removeFromCart({id}))
+    
   };
     
     return (
       <Container>
         <Td>
-          <ProductImg src={image} />
+          <ProductImg src={img} />
         </Td>
 
         <Td>{name}</Td>
 
-        <Td> $ {price}.00</Td>
+        <Td> ₦ {price}.00</Td>
         <Td>
           <Inp
             min={1}
@@ -75,16 +75,16 @@ const {dispatch}=useContext(CartContext)
 
         <Td>
           <Button
-            style={{border:"none",opacity:0.7}}
+            style={{ border: "none", opacity: 0.7 }}
             onClick={() => {
-              handleDelete(id);
+              handleDelete(productId);
             }}
             variant="outline-danger"
           >
             <FaTrash />
           </Button>
         </Td>
-        <Td>$ {price * quantity}.00</Td>
+        <Td>₦ {Number((price * quantity).toFixed(2))}</Td>
       </Container>
     );
  }

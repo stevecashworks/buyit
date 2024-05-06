@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { AppContext } from "../../../../App";
 import { useState } from "react";
 import "./links.css";
 import responsive from "../../../../responsive";
+import { selectTheme, themeType } from "../../../../state/theme/themeSlice";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 80vw;
@@ -36,7 +37,7 @@ const LinksCon = styled.div`
   `)}
 `;
 
-const Link = styled.a<{ theme: string }>`
+const Link = styled.a<{ theme: themeType }>`
   color: ${(props) =>
     props.theme === "light" ? "rgb(0,0,0,0.8)" : "rgb(255,255,255,0.8)"};
   /* font-weight:600; */
@@ -90,7 +91,7 @@ const variant = {
 };
 const Links = () => {
   const [catOpen, setCatOpen] = useState(false);
-  const { theme } = useContext(AppContext);
+  const theme= useSelector(selectTheme)
   return (
     <Container>
       <CategoryCon>
