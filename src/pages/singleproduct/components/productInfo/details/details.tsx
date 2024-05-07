@@ -21,7 +21,7 @@ import apiEntry from "../../../../../apiEntry";
 import { responseType } from "../../../../Register/register";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../state/store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 700px;
@@ -193,6 +193,7 @@ const [currentSize, setCurrentSize] = useState(sizes[0]);
 const [quantity, setQuantity] = useState(1);
 const isLogged=useSelector((state:RootState)=>state.user.is_logged_in)
 const params=useParams();
+const navigate=useNavigate()
 const productId= params["id"]
 
   
@@ -204,6 +205,8 @@ const productId= params["id"]
   const add_to_cart=()=>{
     const onSuccess=(data:responseType)=>{
       console.log(data.result)
+      navigate("/cart")
+
     }
     if (!isLogged) {
       alert("you must be logged in first");

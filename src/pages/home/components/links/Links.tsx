@@ -6,6 +6,8 @@ import "./links.css";
 import responsive from "../../../../responsive";
 import { selectTheme, themeType } from "../../../../state/theme/themeSlice";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { linkStyle } from "../hotdeals/hotDeals";
 
 const Container = styled.div`
   width: 80vw;
@@ -36,7 +38,7 @@ const LinksCon = styled.div`
   `)}
 `;
 
-const Link = styled.a<{ theme: themeType }>`
+const LinkItem = styled.span<{ theme: themeType }>`
   color: ${(props) =>
     props.theme === "light" ? "rgb(0,0,0,0.8)" : "rgb(255,255,255,0.8)"};
   /* font-weight:600; */
@@ -115,8 +117,10 @@ const Links = () => {
       </CategoryCon>
       <LinksCon>
         {LinkData.map((link) => (
-          <Link theme={theme} href={link.path}>
+          <Link style={linkStyle} to={link.path}>
+          <LinkItem theme={theme}>
             {link.text}
+          </LinkItem>
           </Link>
         ))}
       </LinksCon>
