@@ -6,7 +6,8 @@ const editCart=async(req,res,next)=>{
 try {
     const  userId=req.user.id
     const updatedCart= await cartModel.findOneAndUpdate({userId},{$set:req.body}, {new:true})
-    res.status(200).json({success:true, result:updatedCart})
+  return  res.status(200).json({success:true, result:updatedCart})
+  
     
 } catch (error) {
     next(createCustomError(error.message))

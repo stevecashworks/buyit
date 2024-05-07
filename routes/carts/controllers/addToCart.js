@@ -5,7 +5,7 @@ const addToCart = async (req, res, next) => {
   try {
     console.log("visited")
     let updatedCart
-    const { productId, quantity } = req.body;
+    const { productId, quantity, price, img, name } = req.body;
     const userId = req.user.id;
     const thisCart = await cartModel.findOne({ userId });
     if (thisCart) {
@@ -16,7 +16,7 @@ const addToCart = async (req, res, next) => {
       const changeOnlyQuantity = (product) => {
         if (product.productId === productId) {
             console.log("matched")
-          return { ...product, quantity };
+          return { ...product, quantity,price,img, name };
         }
         return product;
       };
@@ -34,7 +34,7 @@ const addToCart = async (req, res, next) => {
         );
       }
       else{
-        updatedCart= await cartModel.findOneAndUpdate({userId}, {$push:{products:{productId,quantity}}},{new:true})
+        updatedCart= await cartModel.findOneAndUpdate({userId}, {$push:{products:{productId,quantity,img,price, name}}},{new:true})
       }
       res.status(200).json({success:true, result:updatedCart})
 

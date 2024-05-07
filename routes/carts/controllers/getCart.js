@@ -10,6 +10,6 @@ const getCart=async(req,res,next)=>{
     } catch (error) {
         next(createCustomError(error.message))
     }
-}
+} 
 
 export default getCart

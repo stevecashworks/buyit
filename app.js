@@ -22,6 +22,17 @@ server.use(cors())
 // use environment port if available
 const port= process.env.port||5000
 
+//  render payment key
+
+server.get("/payments",(req,res,next)=>{
+    try {
+        const payStack_key=  process.env.paystack_key
+        res.status(200).json({success:true, result:payStack_key})
+    } catch (error) {
+        return res.status(500).json({success:false, result:error.message})
+    }
+})
+
 // routes start
 server.use("/users",userRoute)
 server.use("/products",productRoute)
