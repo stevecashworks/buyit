@@ -56,6 +56,7 @@ const App:React.FC<props>=({children})=> {
     };
     useEffect(() => {
       const token = localStorage.getItem("buyit_token");
+      console.log(token)
       //  get user details  by jwt token   and update state
       if (token) {
         fetch_helper({
