@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import responsive from "../../../responsive";
 import { FaTrash } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, setQuantity } from "../../../state/cart/cartSlice";
+import { selectCurrency } from "../../../state/currency/currencySlice";
+import { selectRates } from "../../../state/rates/rates";
+import currencies_and_symbols from "../../../currencies";
 
 const Container=styled.tr`
     
@@ -43,6 +46,10 @@ outline:none;
  
  const Row=({img, name,quantity, productId,price}:rowProps)=>{
   const dispatch=useDispatch() 
+  const currency=useSelector(selectCurrency)
+  const rates= useSelector(selectRates)
+  const rate=rates[currency]
+  const symbol=currencies_and_symbols[currency]
   const handleChange=(e:React.ChangeEvent<HTMLInputElement>, )=>{
       dispatch(setQuantity({id:productId,quantity:Number(e.target.value)}))
          
@@ -61,7 +68,7 @@ outline:none;
 
         <Td>{name}</Td>
 
-        <Td> ₦ {price}.00</Td>
+        <Td> {symbol} {Math.ceil(price*rate)}.00</Td>
         <Td>
           <Inp
             min={1}
@@ -84,7 +91,7 @@ outline:none;
             <FaTrash />
           </Button>
         </Td>
-        <Td>₦ {Number((price * quantity).toFixed(2))}</Td>
+        <Td>{symbol} {Math.ceil(Number(((price * quantity)*rate)))}</Td>
       </Container>
     );
  }

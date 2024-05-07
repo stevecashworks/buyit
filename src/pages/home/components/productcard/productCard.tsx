@@ -4,6 +4,9 @@ import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
 import styled from "styled-components";
 import Rating from "../ratings";
+import { useSelector } from "react-redux";
+import { selectCurrency } from "../../../../state/currency/currencySlice";
+import currency_and_symbol from "../../../../currencies"
 
 const Img = styled.img`
   width: 200px;
@@ -44,6 +47,8 @@ export interface productProps {
 }
 const ProductCard = (props: productProps) => {
   const { img, productName,  price, rating , } = props;
+  const currency=useSelector(selectCurrency)
+  const symbol:any=currency_and_symbol[currency]
  
   return (
     <motion.div className="product-card-con">
@@ -61,7 +66,7 @@ const ProductCard = (props: productProps) => {
 
       
       <Name>{productName}</Name>
-      <Price>${price}</Price>
+      <Price>{symbol} {price}</Price>
       <Colors>
         <Color color="#4d4a4a" />
         <Color color="#bebaba" />

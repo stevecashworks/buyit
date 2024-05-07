@@ -18,6 +18,8 @@ import fetch_helper from "../../helpers/fetchhelper";
 import apiEntry from "../../apiEntry";
 import { linkStyle, responseType } from "../Register/register";
 import { Link } from "react-router-dom";
+import { selectCurrency } from "../../state/currency/currencySlice";
+import currencies_and_symbols from "../../currencies";
 
 
 
@@ -120,7 +122,10 @@ const  Cart=()=>{
     const [loading, setLoading]=useState(false)
     const publicKey=useSelector(selectKey)
     const rates=useSelector(selectRates)
-    console.log(rates["NGN"])
+    const currency=useSelector(selectCurrency)
+    const symbol=currencies_and_symbols[currency]
+    const rate=rates[currency]
+    
   
     const databaseCart=useSelector(selectDatabaseCart)
     const clientCart=useSelector(selectClientCart)
@@ -214,7 +219,7 @@ const cartHasChanged:boolean=    JSON.stringify(clientCart)!==JSON.stringify(dat
             )}
             Save changes
           </UpdateButton>
-          <p>Total price: ₦{TotalPrice}</p>
+          <p>Total price: {symbol} {Math.ceil(TotalPrice*rate)}</p>
         </TotalPriceCon>
         <BtnsCon>
           <Link style={linkStyle} to="/">

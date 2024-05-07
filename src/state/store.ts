@@ -5,6 +5,7 @@ import themeSlice from "./theme/themeSlice";
 import paymentSlice from "./payment/paymentSlice";
 import rates from "./rates/rates";
 import productSlice from "../state/products/productSlice"
+import currencySlice from "./currency/currencySlice";
 
 
 const store=configureStore({
@@ -14,7 +15,8 @@ const store=configureStore({
         theme:themeSlice,
         payment:paymentSlice,
         rates:rates,
-        products:productSlice
+        products:productSlice,
+        currency:currencySlice
 
     }
 })

@@ -16,6 +16,7 @@ import { setKey } from './state/payment/paymentSlice';
 import { setRates } from './state/rates/rates';
 
 import { setProducts } from './state/products/productSlice';
+import { setCurrency } from './state/currency/currencySlice';
 // import SingleProduct from './pages/singleproduct/singleProduct';
 // import Cart from './pages/cart/cart';
 
@@ -112,9 +113,13 @@ const App:React.FC<props>=({children})=> {
       dispatch(setRates(data.rates))
      });
     //  get users country
-    fetch("https://api.ip2location.io/?key=3CE684453EE3923C1DEB78BFCF7FC3A3").then(res=>res.json()).then((data:any)=>{
-      console.log(data)
-    })
+    fetch(
+      "https://ipgeolocation.abstractapi.com/v1/?api_key=b5f7082a2a924928a0fb53052067e1d5"
+    )
+      .then((res) => res.json())
+      .then((data: any) => {
+        dispatch(setCurrency(data.currency.currency_code))
+      });
 
 
     }, []);

@@ -22,6 +22,9 @@ import { responseType } from "../../../../Register/register";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../state/store";
 import { useNavigate, useParams } from "react-router-dom";
+import { selectCurrency } from "../../../../../state/currency/currencySlice";
+import { selectRates } from "../../../../../state/rates/rates";
+import currencies_and_symbols from "../../../../../currencies";
 
 const Container = styled.div`
   width: 700px;
@@ -192,6 +195,10 @@ const [currentColor, setCurrentColor] = useState(colors[0]);
 const [currentSize, setCurrentSize] = useState(sizes[0]);
 const [quantity, setQuantity] = useState(1);
 const isLogged=useSelector((state:RootState)=>state.user.is_logged_in)
+const currency= useSelector(selectCurrency)
+const rates=useSelector(selectRates)
+const rate= rates[currency]
+const symbol = currencies_and_symbols[currency]
 const params=useParams();
 const navigate=useNavigate()
 const productId= params["id"]
@@ -237,8 +244,8 @@ const productId= params["id"]
       </RatingCon>
       {/* products stats end */}
       <PriceCon>
-        <Price>$ {price}</Price>
-        <FormerPrice>$8999.99</FormerPrice>
+        <Price>{symbol} {Math.ceil(price*rate)}</Price>
+        <FormerPrice>{symbol}8999.99</FormerPrice>
         <Discount> 30% off</Discount>
       </PriceCon>
       {/* color selection starts */}
