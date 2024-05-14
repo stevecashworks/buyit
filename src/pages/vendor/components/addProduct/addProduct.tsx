@@ -11,6 +11,9 @@ import fetch_helper from "../../../../helpers/fetchhelper";
 import apiEntry from "../../../../apiEntry";
 import {   useNavigate } from "react-router-dom";
 import { responseType } from "../../../Register/register";
+import { selectCurrency } from "../../../../state/currency/currencySlice";
+import currencies_and_symbols from "../../../../currencies";
+import { selectRates } from "../../../../state/rates/rates";
 
 const Container = styled.div`
   width: 100%;
@@ -287,7 +290,12 @@ const AddProduct = () => {
 
   
   const token = localStorage.getItem("buyit_token");
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state:RootState)=>state.user);
+  const currency=useSelector(selectCurrency)
+  const rates=useSelector(selectRates)
+  const rate=rates[currency]
+  const symbol:any= currencies_and_symbols[currency]
+  
   const navigate = useNavigate();
   if (!user.is_logged_in || !token) {
     navigate("/");
@@ -298,7 +306,7 @@ const AddProduct = () => {
   const [title, setTitle] = useState("");
   const [index, setIndex] = useState(0);
   const [description, setDescription] = useState("");
-
+  
   const [colors, setColors] = useState<string[]>([]);
   const [currentColor, setCurrentColor] = useState("#fffff");
   const [modalOpen, setModalOpen] = useState(false);
@@ -306,7 +314,8 @@ const AddProduct = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [stock, setStock] = useState(1);
   console.log(mileage);
-
+  
+  const amount_in_dollars=price/rate
   const add_products = () => {
     const onSuccess = (data: responseType) => {
       console.log(data);
@@ -351,7 +360,7 @@ const AddProduct = () => {
           productName: title,
           stock,
           img: previewImages[0].img,
-          price: price - 0.01,
+          price: amount_in_dollars,
           description,
           colors,
           otherImages: previewImages
@@ -453,7 +462,7 @@ const AddProduct = () => {
           <PreviewDetailCon>
             <PreviewDetail className="title">{title}</PreviewDetail>
             <PreviewDetail>
-              <span style={{ marginRight: "8px" }}>$</span>
+              <span style={{ marginRight: "8px" }}>{symbol}</span>
               {price}
             </PreviewDetail>
           </PreviewDetailCon>

@@ -129,7 +129,9 @@ const  Cart=()=>{
   
     const databaseCart=useSelector(selectDatabaseCart)
     const clientCart=useSelector(selectClientCart)
-    const TotalPrice= Number((clientCart.products.reduce((acc,item)=>acc+(item.price*item.quantity),0)).toFixed(2))
+    const TotalPrice= Number((clientCart.products.reduce((acc,item)=>acc+(item.price*item.quantity),0)))
+    const amount=(TotalPrice*100*rate)
+    console.log(amount)
         const onSuccess = (reference: any) => {
           // Implementation for whatever you want to do with reference and after success call.
           console.log(reference);
@@ -144,7 +146,7 @@ const  Cart=()=>{
        const config = {
          reference: new Date().getTime().toString(),
          email: "user@example.com",
-         amount: (TotalPrice*100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+         amount: Math.ceil(TotalPrice*rate*100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
          publicKey,
          onSuccess,
          onClose

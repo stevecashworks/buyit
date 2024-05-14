@@ -7,16 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productProps } from './pages/home/components/productcard/productCard';
 
 import { responseType } from './pages/Register/register';
-import { log_user_in, user_details_type } from './state/users/userslice';
+import { log_user_in, selectIsLogged, user_details_type } from './state/users/userslice';
 import fetch_helper from './helpers/fetchhelper';
 import apiEntry from './apiEntry';
-import { setClientCart, setDatabaseCart } from './state/cart/cartSlice';
+import { loadCart, select_cart_has_loaded, setClientCart, setDatabaseCart } from './state/cart/cartSlice';
 import { selectTheme, themeType } from './state/theme/themeSlice';
-import { setKey } from './state/payment/paymentSlice';
+import { loadKey, select_key_has_loaded, setKey } from './state/payment/paymentSlice';
 import { setRates } from './state/rates/rates';
 
-import { setProducts } from './state/products/productSlice';
-import { setCurrency } from './state/currency/currencySlice';
+import { loadProducts, select_products_have_loaded, setProducts } from './state/products/productSlice';
+import { loadCurrency, select_currency_has_loaded, setCurrency } from './state/currency/currencySlice';
+import Loading from './loading';
 // import SingleProduct from './pages/singleproduct/singleProduct';
 // import Cart from './pages/cart/cart';
 
@@ -36,14 +37,25 @@ const Container = styled.div<{ theme: themeType }>`
 `
 const App:React.FC<props>=({children})=> {
    const theme=useSelector(selectTheme)
-    
   
+   //  loading indicators
+   const user_is_logged=useSelector(selectIsLogged)
+   const products_have_loaded=useSelector(select_products_have_loaded)
+   const key_has_loaded=useSelector(select_key_has_loaded)
+   const currency_has_loaded=useSelector(select_currency_has_loaded)
+   const cart_has_loaded= useSelector(select_cart_has_loaded)
+   
+
+   const loadingDeps=[user_is_logged,products_have_loaded,key_has_loaded,currency_has_loaded,cart_has_loaded]
+    
+  const loading=loadingDeps.some(dep=>!dep)
 
     // console.log(user)
     const dispatch = useDispatch();
     const onSuccessfulProductsFetch = (data: responseType) => {
       if (Array.isArray(data.result)) {
-      dispatch(setProducts(data.result as productProps[])); 
+      dispatch(setProducts(data.result as productProps[]));
+      dispatch(loadProducts()) 
       }
     };
 
@@ -92,6 +104,7 @@ const App:React.FC<props>=({children})=> {
           const { products, userId } = data.result as cartResultType;
           dispatch(setDatabaseCart({ products, userId }));
           dispatch(setClientCart({ products, userId }));
+          dispatch(loadCart())
         },
 
       });
@@ -103,6 +116,7 @@ const App:React.FC<props>=({children})=> {
         url:`${apiEntry}/payments`,
         onSuccess:(data:responseType)=>{
           dispatch(setKey(data.result))
+          dispatch(loadKey())
         }
       })
 
@@ -119,6 +133,7 @@ const App:React.FC<props>=({children})=> {
       .then((res) => res.json())
       .then((data: any) => {
         dispatch(setCurrency(data.currency.currency_code))
+        dispatch(loadCurrency())
       });
 
 
@@ -129,7 +144,8 @@ const App:React.FC<props>=({children})=> {
   return (
 
     <Container theme={theme} >
-      {children}
+       {(!loading)&&children} 
+      {loading&&<Loading/>}
       {/* <SingleProduct/> */}
       {/* <Cart/> */}
       {/* <Vendor/> */}

@@ -7,6 +7,7 @@ import Rating from "../ratings";
 import { useSelector } from "react-redux";
 import { selectCurrency } from "../../../../state/currency/currencySlice";
 import currency_and_symbol from "../../../../currencies"
+import { selectRates } from "../../../../state/rates/rates";
 
 const Img = styled.img`
   width: 200px;
@@ -48,6 +49,8 @@ export interface productProps {
 const ProductCard = (props: productProps) => {
   const { img, productName,  price, rating , } = props;
   const currency=useSelector(selectCurrency)
+  const rates=useSelector(selectRates)
+  const rate=rates[currency]
   const symbol:any=currency_and_symbol[currency]
  
   return (
@@ -66,7 +69,7 @@ const ProductCard = (props: productProps) => {
 
       
       <Name>{productName}</Name>
-      <Price>{symbol} {price}</Price>
+      <Price>{symbol} {Math.ceil(price*rate)}</Price>
       <Colors>
         <Color color="#4d4a4a" />
         <Color color="#bebaba" />

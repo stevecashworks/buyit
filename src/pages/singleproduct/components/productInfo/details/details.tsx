@@ -19,12 +19,14 @@ import { singleProductType } from "../productInfo";
 import fetch_helper from "../../../../../helpers/fetchhelper";
 import apiEntry from "../../../../../apiEntry";
 import { responseType } from "../../../../Register/register";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../state/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectCurrency } from "../../../../../state/currency/currencySlice";
 import { selectRates } from "../../../../../state/rates/rates";
 import currencies_and_symbols from "../../../../../currencies";
+import { setClientCart, setDatabaseCart } from "../../../../../state/cart/cartSlice";
+import { productProps } from "../../../../home/components/productcard/productCard";
 
 const Container = styled.div`
   width: 700px;
@@ -201,6 +203,7 @@ const rate= rates[currency]
 const symbol = currencies_and_symbols[currency]
 const params=useParams();
 const navigate=useNavigate()
+const dispatch=useDispatch()
 const productId= params["id"]
 
   
@@ -211,7 +214,14 @@ const productId= params["id"]
 
   const add_to_cart=()=>{
     const onSuccess=(data:responseType)=>{
+      type cartType={
+        userId:string, 
+        products:productProps[]
+      }
       console.log(data.result)
+      const {userId, products}= data.result as cartType
+      dispatch(setDatabaseCart({userId,products}))
+      dispatch(setClientCart({userId,products}))
       navigate("/cart")
 
     }

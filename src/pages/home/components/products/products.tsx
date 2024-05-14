@@ -84,7 +84,7 @@ const ProductsCon = styled.div<{ selected: boolean }>`
 const Products=({products}: productListType)=>{
   
 const newProducts= products.filter(prod=>prod.mileage==="new")
-const featuredProducts= products.filter(prod=>prod.mileage==="new")
+const featuredProducts= products.filter(prod=>prod.mileage==="featured")
   const  categoryConRef= useRef<HTMLDivElement>(null)
   const newProductsRef=useRef<HTMLDivElement>(null)
   const featuredProductsRef=useRef<HTMLDivElement>(null)

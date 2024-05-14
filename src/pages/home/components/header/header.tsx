@@ -4,10 +4,11 @@ import { MdFavorite } from "react-icons/md";
 import { PiSunDimLight } from "react-icons/pi";
 import { LuMoonStar } from "react-icons/lu";
 import { IoPerson } from "react-icons/io5";
-import { GiHamburgerMenu } from "react-icons/gi";
+// import { GiHamburgerMenu } from "react-icons/gi";
 import responsive from "../../../../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTheme, toggleTheme } from "../../../../state/theme/themeSlice";
+import Menu from "./menu";
 
 const Container = styled.div<{ theme: string }>`
   width: 100vw;
@@ -104,7 +105,8 @@ const Header = () => {
     <>
       <Container theme={theme}>
         <NavBtn>
-          <GiHamburgerMenu size={"24"}/>
+          {/* <GiHamburgerMenu size={"24"}/> */}
+          <Menu/>
         </NavBtn>
         <Contact>
           <ContactDetail>Welcome to our store at Buyit</ContactDetail>
