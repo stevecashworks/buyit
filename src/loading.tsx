@@ -1,4 +1,4 @@
-import { Circles, Watch } from "react-loader-spinner";
+import { Circles } from "react-loader-spinner";
 import styled from "styled-components"
 const Container = styled.div`
   width: 100vw;

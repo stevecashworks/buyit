@@ -73,7 +73,7 @@ function Menu() {
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action5">
-                      <LogoutBtn>Logout <span style={{marginLeft:"5px"}}><IoMdLogOut/></span></LogoutBtn>
+                      <LogoutBtn onClick={logout}>Logout <span style={{marginLeft:"5px"}}><IoMdLogOut/></span></LogoutBtn>
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
