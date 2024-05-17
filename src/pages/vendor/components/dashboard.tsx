@@ -5,6 +5,7 @@ import { MdPendingActions } from "react-icons/md";
 import { IconType } from "react-icons";
 import CompChart from "./charts/Compchart";
 import RoundChart from "./charts/roundchart";
+import responsive from "../../../responsive";
 
 const Container = styled.div`
   width: 100%;
@@ -13,6 +14,12 @@ const Stats = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  ${responsive(`
+    flex-direction:column;
+    align-items:center;
+    width:90vw;
+    gap:20px
+  `)}
 `;
 const Stat = styled.div`
   background-color: #d8e2cb;
@@ -20,6 +27,9 @@ const Stat = styled.div`
   height: 120px;
   display: flex;
   gap: 30px;
+  ${responsive(`
+    width:300px;
+  `)}
 `;
 const IconCon = styled.div`
   height: 100%;
@@ -45,6 +55,14 @@ const ChartsCon = styled.div`
   justify-content: space-between;
   position: relative;
   top: 80px;
+  ${
+    responsive(`
+      flex-direction:column-reverse;
+      gap:18px;
+      width:95vw;
+      align-items:center;
+    `)
+  }
 `;
 const statsData = [
   { icon: FaDropbox, text: "Total Products", value: 25 },

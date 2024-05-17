@@ -4,13 +4,18 @@ import Dashboard from "./dashboard";
 import ProductList from "./productList/productList";
 import Profile from "./profile/profile";
 import AddProduct from "./addProduct/addProduct";
+import responsive from "../../../responsive";
 
 const Container = styled.div`
     width:900px;
     height:700px;
+    ${responsive(`
+        height:auto;
+        padding-bottom:50px;
+    `)}
    /* background-color: #e7f3d7; */
 `;
-const contentData={
+export const contentData={
     "dashboard":Dashboard,
     "products":ProductList,
     "orders":Orders,

@@ -36,7 +36,8 @@ const Container = styled.div<{ theme: themeType }>`
     overflow-x: hidden;
 `
 const App:React.FC<props>=({children})=> {
-   const theme=useSelector(selectTheme)
+  const theme=useSelector(selectTheme)
+  const token = localStorage.getItem("buyit_token");
   
    //  loading indicators
    const user_is_logged=useSelector(selectIsLogged)
@@ -46,7 +47,8 @@ const App:React.FC<props>=({children})=> {
    const cart_has_loaded= useSelector(select_cart_has_loaded)
    
 
-   const loadingDeps=[user_is_logged,products_have_loaded,key_has_loaded,currency_has_loaded,cart_has_loaded]
+   const loadingDeps=[
+    (!token||user_is_logged),products_have_loaded,key_has_loaded,currency_has_loaded,(!token||cart_has_loaded)]
     
   const loading=loadingDeps.some(dep=>!dep)
 
@@ -68,7 +70,6 @@ const App:React.FC<props>=({children})=> {
       dispatch(log_user_in(details));
     };
     useEffect(() => {
-      const token = localStorage.getItem("buyit_token");
       console.log(token)
       //  get user details  by jwt token   and update state
       if (token) {

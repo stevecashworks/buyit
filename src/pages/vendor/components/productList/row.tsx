@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Tr = styled.tr`
   border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+  margin:20px auto;
 
   align-items: center;
 `;

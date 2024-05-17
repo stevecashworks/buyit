@@ -9,15 +9,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../state/store";
 import fetch_helper from "../../../../helpers/fetchhelper";
 import apiEntry from "../../../../apiEntry";
-import {   useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { responseType } from "../../../Register/register";
 import { selectCurrency } from "../../../../state/currency/currencySlice";
 import currencies_and_symbols from "../../../../currencies";
 import { selectRates } from "../../../../state/rates/rates";
+import categories from "../../categories";
 
 const Container = styled.div`
   width: 100%;
-  height: 700px;
+  height: 750px;
   background-color: rgb(21, 21, 43);
   padding-top: 20px;
   color: white;
@@ -180,6 +181,36 @@ const Color = styled.div<{ col: string }>`
     transform: translateY(0);
   }
 `;
+const CategoryCard= styled.div`
+padding:10px;
+border-radius: 8px;
+background-color: #f5f5f5;
+color:rgb(0,0,0,0.7);
+font-size:12px;
+font-weight:600;
+position:relative;
+&:after{
+  content:"✖";
+  color:white;
+  font-weight: 700;
+  position:absolute;
+  background-color:rgb(0,0,0,0.5);
+  border-radius:8px;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  transition:all 0.5s ease;
+  transform-origin: bottom;
+  transform: scaleY(0);
+}
+&:hover:after{
+  transform: scaleY(1);
+}
+` 
 const Prog = styled.div<{ progress: progressType }>`
   width: 36px;
   height: 36px;
@@ -215,6 +246,11 @@ type pictureProp = {
   }[];
   productName: string;
 };
+const CategoryInputCon = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+`;
 
 const imgIds = ["img1", "img2", "img3", "img4"];
 const defaultPreviewImages = [
@@ -252,7 +288,6 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
         );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-    
       uploadFile({
         setProgress,
         file: e.target.files[0],
@@ -287,26 +322,31 @@ const Picture = ({ id, fn, previewImages, productName }: pictureProp) => {
 };
 
 const AddProduct = () => {
-
-  
   const token = localStorage.getItem("buyit_token");
-  const user = useSelector((state:RootState)=>state.user);
-  const currency=useSelector(selectCurrency)
-  const rates=useSelector(selectRates)
-  const rate=rates[currency]
-  const symbol:any= currencies_and_symbols[currency]
+  const user = useSelector((state: RootState) => state.user);
+  const currency = useSelector(selectCurrency);
+  const rates = useSelector(selectRates);
+  const rate = rates[currency];
+  const symbol: any = currencies_and_symbols[currency];
+  const [selectedCategories,setSelectedCategories]= useState<string[]>([])
+  const [currentCategory, setCurrentCategory]= useState<string>("all")
   
+  const addCategory=()=>{
+    const newCategory= new Set([...selectedCategories,currentCategory])
+    setSelectedCategories(Array.from(newCategory))
+  }
+console.log(selectedCategories)
   const navigate = useNavigate();
   if (!user.is_logged_in || !token) {
     navigate("/");
   }
-  const [uploadingProduct,setUploadingProduct]= useState<boolean>(false)
-  const [mileage,setMileage] = useState<string>("new");
+  const [uploadingProduct, setUploadingProduct] = useState<boolean>(false);
+  const [mileage, setMileage] = useState<string>("new");
   const [price, setPrice] = useState(0);
   const [title, setTitle] = useState("");
   const [index, setIndex] = useState(0);
   const [description, setDescription] = useState("");
-  
+
   const [colors, setColors] = useState<string[]>([]);
   const [currentColor, setCurrentColor] = useState("#fffff");
   const [modalOpen, setModalOpen] = useState(false);
@@ -314,17 +354,14 @@ const AddProduct = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [stock, setStock] = useState(1);
   console.log(mileage);
-  
-  const amount_in_dollars=price/rate
+
+  const amount_in_dollars = price / rate;
   const add_products = () => {
     const onSuccess = (data: responseType) => {
       console.log(data);
       alert("product was added successfully");
       setUploadingProduct(false);
-      window.location.reload()
-      
-
-      
+      window.location.reload();
     };
     // first empty the list of errors
     setErrors([]);
@@ -349,9 +386,8 @@ const AddProduct = () => {
     if (temporary_errors.length > 0) {
       setModalOpen(!modalOpen);
     } else {
-      setUploadingProduct(true)
+      setUploadingProduct(true);
       fetch_helper({
-
         method: "post",
         url: `${apiEntry}/products/new`,
         onSuccess,
@@ -363,10 +399,11 @@ const AddProduct = () => {
           price: amount_in_dollars,
           description,
           colors,
+          categories:selectedCategories,
           otherImages: previewImages
             .filter((img) => img.img !== upload)
             .map((img) => img.img),
-            mileage
+          mileage,
         },
       });
     }
@@ -380,22 +417,25 @@ const AddProduct = () => {
         <HeaderText>Add Product</HeaderText>
         <BtnsCon>
           <Button variant="outline-success"> Save Draft</Button>
-          <Button onClick={add_products} disabled={uploadingProduct} variant="primary">
+          <Button
+            onClick={add_products}
+            disabled={uploadingProduct}
+            variant="primary"
+          >
             {" "}
-            {
-            uploadingProduct&&(<Spinner
-
-              style={{
-                width: "15px",
-                color: "#ffffff",
-                height: "15px",
-                marginTop: "5px",
-                marginRight:"10px"
-              }}
-              animation="border"
-              role="status"
-            ></Spinner>)
-            }
+            {uploadingProduct && (
+              <Spinner
+                style={{
+                  width: "15px",
+                  color: "#ffffff",
+                  height: "15px",
+                  marginTop: "5px",
+                  marginRight: "10px",
+                }}
+                animation="border"
+                role="status"
+              ></Spinner>
+            )}
             Add Product
           </Button>
         </BtnsCon>
@@ -445,6 +485,17 @@ const AddProduct = () => {
               ))}
             </ProductImgCon>
           </DetailCon>
+          <CategoryInputCon>
+
+          <select onChange={(e)=>{setCurrentCategory(e.target.value)}} id="uploadproductcategory">
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          <Button variant="primary" onClick={addCategory}>Add</Button>
+            </CategoryInputCon>
         </ProductInformation>
 
         {/* preview */}
@@ -539,6 +590,9 @@ const AddProduct = () => {
               />
             ))}
           </ColorsCon>
+          <CategoryInputCon>
+            {selectedCategories.map((cat)=><CategoryCard onClick={()=>{setSelectedCategories(selectedCategories.filter((item)=>{return item!=cat}))}}>{cat}</CategoryCard>)}
+          </CategoryInputCon>
         </Preview>
       </ProductInfoCon>
       <ErrorsModal

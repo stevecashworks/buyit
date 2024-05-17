@@ -2,6 +2,7 @@ import styled from "styled-components";
 import logo from "../../../assets/Buyit Logo.png";
 import { contentKey } from "./content";
 import React from "react";
+import responsive from "../../../responsive";
 
 
 const NavCon = styled.div`
@@ -9,6 +10,8 @@ const NavCon = styled.div`
   background-color: #e7f3d7;
   box-sizing: border-box;
   padding-top:60px;
+  ${responsive(`
+  display:none;`)}
   
   width: 300px;
 `;
@@ -42,7 +45,7 @@ const Link = styled.div<{ active: boolean }>`
     color:red;
   }
 `;
-const links=[
+export const vendorLinks=[
     {text:"dashboard",id:"vendorLinkText1"},
     {text:"products",id:"vendorLinkText2"},
     {text:"orders",id:"vendorLinkText3"},
@@ -64,7 +67,7 @@ const Nav = ({fn,currentLink}:navProps) => {
       <Category>Fashion Store</Category>
       <Stat>750 followers | 25 reviews</Stat>
       <Stat>info@buyit.com</Stat>
-      {links.map(link=><Link key={link.id} active={link.text===currentLink} onClick={()=>{fn(link.text as contentKey)}} >{link.text}</Link>)}
+      {vendorLinks.map(link=><Link key={link.id} active={link.text===currentLink} onClick={()=>{fn(link.text as contentKey)}} >{link.text}</Link>)}
     </NavCon>
   );
 };

@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectTheme, toggleTheme } from "../../../../state/theme/themeSlice";
 import Menu from "./menu";
 
+export type headerProps={
+  children?:React.ReactNode
+  showNav:boolean,
+  toggleNav?:(()=>void)|undefined
+}
 const Container = styled.div<{ theme: string }>`
   width: 100vw;
   height: 50px;
@@ -98,7 +103,7 @@ const AccountCon = styled.div`
   display: flex;
   align-items: center;
 `;
-const Header = () => {
+const Header = ({children, showNav, toggleNav}:headerProps) => {
   const theme= useSelector(selectTheme)
   const dispatch=useDispatch()
   return (
@@ -106,7 +111,7 @@ const Header = () => {
       <Container theme={theme}>
         <NavBtn>
           {/* <GiHamburgerMenu size={"24"}/> */}
-          <Menu/>
+          <Menu toggleNav={toggleNav} showNav={showNav} children={children}/>
         </NavBtn>
         <Contact>
           <ContactDetail>Welcome to our store at Buyit</ContactDetail>
