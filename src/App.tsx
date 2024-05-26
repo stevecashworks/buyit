@@ -79,35 +79,35 @@ const App:React.FC<props>=({children})=> {
           token,
           onSuccess,
         });
+
+        //  fetch cart details
+        fetch_helper({
+          url: `${apiEntry}/cart/viewcart`,
+          method: "post",
+          token,
+          onSuccess: (data: responseType) => {
+            type cartResultType = {
+              userId: string;
+              products: {
+                productId: string;
+                quantity: number;
+                img: string;
+                price: number;
+                name: string;
+              }[];
+            };
+            const { products, userId } = data.result as cartResultType;
+            dispatch(setDatabaseCart({ products, userId }));
+            dispatch(setClientCart({ products, userId }));
+            dispatch(loadCart());
+          },
+        });
       }
       //  fetches products  and updates application state
       fetch_helper({
         url: `${apiEntry}/products/all`,
         method: "get",
         onSuccess: onSuccessfulProductsFetch,
-      });
-      //  fetch cart details
-      fetch_helper({
-        url: `${apiEntry}/cart/viewcart`,
-        method: "post",
-        token,
-        onSuccess: (data: responseType) => {
-          type cartResultType = {
-            userId: string;
-            products: {
-              productId: string;
-              quantity: number;
-              img: string;
-              price: number;
-              name: string;
-            }[];
-          };
-          const { products, userId } = data.result as cartResultType;
-          dispatch(setDatabaseCart({ products, userId }));
-          dispatch(setClientCart({ products, userId }));
-          dispatch(loadCart())
-        },
-
       });
       
       

@@ -17,7 +17,7 @@ import { selectRates } from "../../state/rates/rates";
 import fetch_helper from "../../helpers/fetchhelper";
 import apiEntry from "../../apiEntry";
 import { linkStyle, responseType } from "../Register/register";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { selectCurrency } from "../../state/currency/currencySlice";
 import currencies_and_symbols from "../../currencies";
 
@@ -118,7 +118,12 @@ const UpdateButton = styled.button<{ has_changed: boolean }>`
 `;
 const  Cart=()=>{
   const dispatch=useDispatch()
+  const navigate=useNavigate()
   const token=localStorage.getItem("buyit_token")
+  
+  if(!token){
+    navigate("/register")
+  }
     const [loading, setLoading]=useState(false)
     const publicKey=useSelector(selectKey)
     const rates=useSelector(selectRates)
@@ -184,7 +189,7 @@ const  Cart=()=>{
 const cartHasChanged:boolean=    JSON.stringify(clientCart)!==JSON.stringify(databaseCart)
     return (
       <Container>
-        <Header />
+        <Header showNav={false} />
         <SearchAndFav />
         <PageTitle left="cart" right="home/cart" />
         <TableCon>

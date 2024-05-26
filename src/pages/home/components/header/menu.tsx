@@ -60,6 +60,7 @@ function Menu({children, showNav, toggleNav}:headerProps) {
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
               placement="end"
+              
             >
               <Offcanvas.Header onClick={()=>{show_or_hide()}} closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
@@ -69,10 +70,10 @@ function Menu({children, showNav, toggleNav}:headerProps) {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   {/* <Nav.Link href="#action1">Home</Nav.Link> */}
-                  <Link style={linkStyle} to="/">
+                  <Link onClick={()=>{show_or_hide()}} style={linkStyle} to="/">
                     Home
                   </Link>
-                  <Link style={linkStyle} to="/cart">
+                  <Link onClick={()=>{show_or_hide()}} style={linkStyle} to="/cart">
                     My Cart
                   </Link>
                   {children}

@@ -12,6 +12,7 @@ const Container = styled.div`
     ${responsive(`
         height:auto;
         padding-bottom:50px;
+        width:100vw;
     `)}
    /* background-color: #e7f3d7; */
 `;

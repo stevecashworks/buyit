@@ -15,6 +15,7 @@ import { selectCurrency } from "../../../../state/currency/currencySlice";
 import currencies_and_symbols from "../../../../currencies";
 import { selectRates } from "../../../../state/rates/rates";
 import categories from "../../categories";
+import responsive from "../../../../responsive";
 
 const Container = styled.div`
   width: 100%;
@@ -22,6 +23,9 @@ const Container = styled.div`
   background-color: rgb(21, 21, 43);
   padding-top: 20px;
   color: white;
+  ${responsive(`
+  height:1300px;
+  `)}
 `;
 
 const ProductHeader = styled.div`
@@ -35,6 +39,9 @@ const ProductHeader = styled.div`
   height: 70px;
   align-items: center;
   margin-top: 20px;
+  ${responsive(`
+    width:100vw;
+  `)}
 `;
 const HeaderText = styled.div`
   font-size: 20px;
@@ -49,6 +56,11 @@ const ProductInfoCon = styled.div`
   height: 500px;
   display: flex;
   padding: 40px;
+  ${responsive(`
+    flex-direction:column;
+    padding:10px;
+    gap:40px;
+  `)}
 `;
 const ProductInformation = styled.div``;
 
@@ -113,6 +125,11 @@ const Inp = styled.input`
     height: 20px;
     width: 20px;
   }
+  ${
+    responsive(`
+      width:300px;
+    `)
+  }
 `;
 const TextArea = styled.textarea`
   background-color: rgba(13, 46, 90, 0.322);
@@ -121,6 +138,11 @@ const TextArea = styled.textarea`
   height: 80px;
   width: 350px;
   color: white;
+  ${
+    responsive(`
+    width:300px;
+    `)
+  }
 `;
 const PreviewDetailCon = styled.div`
   display: flex;
@@ -136,6 +158,11 @@ const PreviewDetail = styled.div`
 `;
 const Preview = styled.div`
   padding: 0 40px;
+  ${responsive(
+    `
+    padding:0;
+    `
+  )}
 `;
 
 const HiddenInp = styled.input`
@@ -416,7 +443,9 @@ console.log(selectedCategories)
       <ProductHeader>
         <HeaderText>Add Product</HeaderText>
         <BtnsCon>
+          {/* <draf>
           <Button variant="outline-success"> Save Draft</Button>
+          </draf> */}
           <Button
             onClick={add_products}
             disabled={uploadingProduct}
