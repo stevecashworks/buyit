@@ -81,6 +81,8 @@ const App:React.FC<props>=({children})=> {
         });
 
         //  fetch cart details
+        if(token){
+          
         fetch_helper({
           url: `${apiEntry}/cart/viewcart`,
           method: "post",
@@ -103,6 +105,7 @@ const App:React.FC<props>=({children})=> {
           },
         });
       }
+        }
       //  fetches products  and updates application state
       fetch_helper({
         url: `${apiEntry}/products/all`,
