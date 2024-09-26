@@ -14,7 +14,7 @@ const SingleProduct=()=>{
     
     return(
         <Container>
-            <Header/>
+            <Header showNav={true}/>
             <SearchAndFav/>
             <PageTitle left="product" right="home/product"/>
             {/* <Links/> */}
