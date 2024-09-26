@@ -149,7 +149,7 @@ const App:React.FC<props>=({children})=> {
 
     <Container theme={theme} >
        {(!loading)&&children} 
-      {loading&&<Loading/>}
+      {(loading&&token)&&<Loading/>}
       {/* <SingleProduct/> */}
       {/* <Cart/> */}
       {/* <Vendor/> */}
