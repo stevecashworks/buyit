@@ -39,7 +39,7 @@ const Home = () => {
         }
         toggle={setOpen}
       />
-      <Header showNav={true} />
+      <Header showNav={false} />
       <SearchAndFav />
       <Links />
       <ProductBanner />
