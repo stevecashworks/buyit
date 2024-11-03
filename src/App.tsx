@@ -48,8 +48,8 @@ const App:React.FC<props>=({children})=> {
    
    const is_logged_dep= !token?true:user_is_logged
    const cart_loaded_dep=!token?true:cart_has_loaded
-  console.log({is_logged_dep)
-  console.log({cart_loaded_dep)
+  console.log({is_logged_dep})
+  console.log({cart_loaded_dep})
    const loadingDeps=[
     is_logged_dep,products_have_loaded,key_has_loaded,currency_has_loaded,cart_loaded_dep]
     
